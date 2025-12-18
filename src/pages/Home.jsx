@@ -10,26 +10,32 @@ function Home() {
     {
       id: 1,
       description: "Fixed Expense",
+      color: "bg-sky-500",
     },
     {
       id: 2,
       description: "Leisure",
+      color: "bg-purple-500",
     },
     {
       id: 3,
       description: "Investment",
+      color: "bg-lime-600",
     },
     {
       id: 4,
       description: "Food",
+      color: "bg-yellow-300",
     },
     {
       id: 5,
       description: "Emergency",
+      color: "bg-red-500",
     },
     {
       id: 6,
       description: "Random",
+      color: "bg-orange-300",
     },
   ]);
 

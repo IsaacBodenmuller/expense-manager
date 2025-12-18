@@ -1,8 +1,12 @@
 import Title from "./elements/Title";
+import { TrashIcon } from "lucide-react";
 
 function Grid({ expenses, title, options }) {
   const getTypeDescription = (id) =>
     options.find((opt) => opt.id === Number(id))?.description || "-";
+
+  const getTypeColor = (id) =>
+    options.find((opt) => opt.id === Number(id))?.color || "bg-slate-200";
 
   return (
     <div className="flex flex-col gap-2 px-2">
@@ -10,38 +14,37 @@ function Grid({ expenses, title, options }) {
         <Title>{title}</Title>
       </div>
 
-      <div className="flex flex-col border border-slate-200 rounded-md py-2 px-4 gap-4 min-h-[300px]">
+      <div className="flex flex-col gap-2">
         {expenses.length === 0 ? (
-          <span className="self-center">No data was found</span>
+          <span className="self-center text-slate-400">No data was found</span>
         ) : (
-          <div className="flex flex-col gap-2">
-            {/* <div className="flex font-medium border-b pb-2">
-              <span className="flex-1 text-left">Description</span>
-              <span className="flex-1 text-center">Value</span>
-              <span className="flex-1 text-end">Exp. Type</span>
-            </div> */}
-            <div>
-              {expenses.map((expense) => (
-                <div className="flex" key={expense.id}>
-                  <span className="flex-1 text-left">
-                    {expense.description}
-                  </span>
-                  <span className="flex-1 text-center">
-                    {expense.value.toLocaleString("pt-BR", {
-                      style: "currency",
-                      currency: "BRL",
-                    })}
-                  </span>
-                  <span className="flex-1 text-end">
-                    {getTypeDescription(expense.type)}
-                  </span>
-                </div>
-              ))}
+          expenses.map((expense) => (
+            <div
+              key={expense.id}
+              className={`flex items-center border border-slate-200 rounded-md py-2 px-4 gap-4 ${getTypeColor(
+                expense.type
+              )}`}
+            >
+              <span className="flex-1 text-left">{expense.description}</span>
+
+              <span className="flex-1 text-center">
+                {expense.value.toLocaleString("pt-BR", {
+                  style: "currency",
+                  currency: "BRL",
+                })}
+              </span>
+
+              <span className="flex-1 text-right">
+                {getTypeDescription(expense.type)}
+              </span>
+
+              <TrashIcon className="cursor-pointer text-red-500 hover:scale-110 transition" />
             </div>
-          </div>
+          ))
         )}
       </div>
     </div>
   );
 }
+
 export default Grid;
