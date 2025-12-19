@@ -5,10 +5,11 @@ import Button from "./elements/Button";
 import { useState } from "react";
 import { v4 } from "uuid";
 
-function AddExpense({ options, onAddExpense }) {
+function AddExpense({ options, onAddExpense, onExitModal }) {
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [type, setType] = useState("");
+  const [isExpense, setIsExpense] = useState(false);
 
   const handleValueChange = (e) => {
     const numericValue = e.target.value.replace(/\D/g, "");
@@ -24,7 +25,6 @@ function AddExpense({ options, onAddExpense }) {
 
   function handleAdd() {
     if (!description.trim() || !value.trim() || !type.trim()) {
-      //criar modal depois
       window.alert("É necessário que todos os campos estejam preenchidos!");
     } else {
       const newExpense = {
@@ -32,14 +32,21 @@ function AddExpense({ options, onAddExpense }) {
         description,
         value: Number(value) / 100,
         type,
+        isExpense,
       };
       onAddExpense(newExpense);
 
       setDescription("");
       setValue("");
       setType("");
+      setIsExpense(false);
     }
   }
+
+  const onClickButton = () => {
+    handleAdd();
+    onExitModal();
+  };
 
   return (
     <div className="flex flex-col gap-4 py-4 px-2">
@@ -64,7 +71,13 @@ function AddExpense({ options, onAddExpense }) {
         onChange={(e) => setType(e.target.value)}
       />
 
-      <Button onClick={handleAdd}>Add expense +</Button>
+      <Button
+        onClick={onClickButton}
+        color={"bg-green-300"}
+        hoverColor={"bg-green-500"}
+      >
+        Add expense +
+      </Button>
     </div>
   );
 }
