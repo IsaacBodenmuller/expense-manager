@@ -26,7 +26,7 @@ function ModalNewExpense({
         transition={{ duration: 0.2 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex justify-between border-b border-slate-200 py-8 px-8">
+        <div className="flex justify-between border-b border-slate-200 py-6 px-8">
           <Title>Nova Transação</Title>
           <X className="cursor-pointer" onClick={onExitModal} />
         </div>

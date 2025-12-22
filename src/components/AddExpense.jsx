@@ -12,22 +12,13 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
   const [value, setValue] = useState("");
   const [type, setType] = useState("");
   const [isExpense, setIsExpense] = useState(true);
-
-  // const filteredOptions = options.filter((option) => {
-  //   return (
-  //     option.isExpense === isExpense ||
-  //     option.isOther === true ||
-  //     option.isExpense === (isExpense && false)
-  //   );
-  // });
+  const today = new Date().toISOString().split("T")[0];
+  const [date, setDate] = useState(today);
 
   const filteredOptions = options.filter((option) => {
     if (option.isOther) return true;
     return option.isExpense === isExpense;
   });
-
-  const today = new Date().toISOString().split("T")[0];
-  const [date, setDate] = useState(today);
 
   const handleValueChange = (e) => {
     const numericValue = e.target.value.replace(/\D/g, "");
@@ -72,25 +63,21 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
   };
 
   return (
-    <div className="flex flex-col gap-8 py-4 px-4">
+    <div className="flex flex-col gap-8 py-4 px-4 w-full">
       <div className="flex w-full justify-evenly gap-4">
         {!isExpense && (
           <>
             <ColorButton
-              color={"bg-green-300"}
-              hoverColor={"bg-green-500"}
+              color={"green"}
               direction={"up"}
-              textColor={"text-white"}
               onClick={() => setIsExpense(false)}
             >
               Receita
             </ColorButton>
             <ColorButton
-              color={"bg-slate-300"}
-              hoverColor={""}
+              color={"gray"}
               direction={"down"}
               onClick={() => setIsExpense(true)}
-              textColor={"text-slate-500"}
             >
               Despesa
             </ColorButton>
@@ -99,19 +86,15 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
         {isExpense && (
           <>
             <ColorButton
-              color={"bg-slate-300"}
-              hoverColor={""}
+              color={"gray"}
               direction={"up"}
               onClick={() => setIsExpense(false)}
-              textColor={"text-slate-500"}
             >
               Receita
             </ColorButton>
             <ColorButton
-              color={"bg-red-300"}
-              hoverColor={"bg-red-500"}
+              color={"red"}
               direction={"down"}
-              textColor={"text-white"}
               onClick={() => setIsExpense(true)}
             >
               Despesa
@@ -128,19 +111,22 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
         placeholder="Ex: Compra no mercado"
       />
 
-      <div className="flex gap-4 w-full ">
-        <InputValue
-          type="text"
-          title="Valor"
-          value={formattedValue}
-          onChange={handleValueChange}
-        />
-        <InputDate
-          className="w-full"
-          title="Data"
-          value={date}
-          onChange={(e) => setDate(e.target.value)}
-        />
+      <div className="flex gap-4 sm:flex-col md:flex-row w-full">
+        <div className="flex-1">
+          <InputValue
+            type="text"
+            title="Valor"
+            value={formattedValue}
+            onChange={handleValueChange}
+          />
+        </div>
+        <div className="flex-1">
+          <InputDate
+            title="Data"
+            value={date}
+            onChange={(e) => setDate(e.target.value)}
+          />
+        </div>
       </div>
 
       <InputOption
@@ -149,6 +135,9 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
         value={type}
         onChange={(e) => setType(e.target.value)}
       />
+
+      <InputText title="Notas (Opcional)" />
+
       <div className="flex w-full justify-center gap-4">
         <Button
           color={"bg-white"}
@@ -158,22 +147,12 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
           Cancelar
         </Button>
         {isExpense && (
-          <ColorButton
-            onClick={onClickButton}
-            color={"bg-red-300"}
-            hoverColor={"bg-red-500"}
-            textColor={"text-white"}
-          >
+          <ColorButton onClick={onClickButton} color={"red"}>
             Adicionar +
           </ColorButton>
         )}
         {!isExpense && (
-          <ColorButton
-            onClick={onClickButton}
-            color={"bg-green-300"}
-            hoverColor={"bg-green-500"}
-            textColor={"text-white"}
-          >
+          <ColorButton onClick={onClickButton} color={"green"}>
             Adicionar +
           </ColorButton>
         )}
