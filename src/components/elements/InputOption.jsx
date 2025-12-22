@@ -16,7 +16,7 @@ function InputOption({ title, options, value, onChange }) {
 
         {options.map((option) => (
           <option key={option.id} value={option.id}>
-            {option.description}
+            {option.icon} {option.description}
           </option>
         ))}
       </select>

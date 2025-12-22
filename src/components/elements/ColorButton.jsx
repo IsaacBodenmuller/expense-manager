@@ -12,7 +12,7 @@ function ColorButton(props) {
     green:
       "bg-green-400 hover:bg-green-500 text-white shadow-lg shadow-green-500/50",
     red: "bg-red-400 hover:bg-red-500 text-white shadow-lg shadow-red-500/50",
-    gray: "bg-slate-300 hover:bg-slate-400 text-slate-500",
+    gray: "bg-slate-200 hover:bg-slate-300 text-slate-500 border border-slate-400",
   };
 
   return (

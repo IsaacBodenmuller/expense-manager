@@ -14,6 +14,7 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
   const [isExpense, setIsExpense] = useState(true);
   const today = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState(today);
+  const [note, setNote] = useState("");
 
   const filteredOptions = options.filter((option) => {
     if (option.isOther) return true;
@@ -136,14 +137,14 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
         onChange={(e) => setType(e.target.value)}
       />
 
-      <InputText title="Notas (Opcional)" />
+      <InputText
+        title="Notas (Opcional)"
+        value={note}
+        onChange={(e) => setNote(e.target.value)}
+      />
 
       <div className="flex w-full justify-center gap-4">
-        <Button
-          color={"bg-white"}
-          onClick={onExitModal}
-          textColor={"text-slate-500"}
-        >
+        <Button color={"white"} onClick={onExitModal}>
           Cancelar
         </Button>
         {isExpense && (
