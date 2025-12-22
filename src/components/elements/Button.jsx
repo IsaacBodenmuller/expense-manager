@@ -3,7 +3,7 @@ function Button(props) {
     <button
       type="button"
       onClick={props.onClick}
-      className={`${props.color} hover:${props.hoverColor} rounded-md px-2 py-2 text-white shadow-md`}
+      className={`${props.color} hover:${props.hoverColor} ${props.textColor} rounded-xl px-2 py-2 border border-slate-300 shadow-md w-full flex gap-2 items-center justify-center min-h-[45px]`}
     >
       {props.children}
     </button>

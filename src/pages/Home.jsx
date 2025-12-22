@@ -9,66 +9,101 @@ import ModalWarning from "./modal/ModalWarning";
 
 function Home() {
   const [expenses, setExpense] = useState([]);
-  const [showModal, setShowModal] = useState(false);
+  const [showNewExpense, setShowNewExpense] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [showError, setShowError] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
   const [options] = useState([
     {
       id: 1,
-      description: "Salário",
+      description: "💵 Salário",
+      isExpense: false,
     },
     {
       id: 2,
-      description: "Freelance",
+      description: "💼 Freelance",
+      isExpense: false,
     },
     {
       id: 3,
-      description: "Investimento",
+      description: "📈 Investimento",
+      isExpense: false,
     },
     {
       id: 4,
-      description: "Alimentação",
+      description: "🍔 Alimentação",
+      isExpense: true,
     },
     {
       id: 5,
-      description: "Transporte",
+      description: "🚗 Transporte",
+      isExpense: true,
     },
     {
       id: 6,
-      description: "Moradia",
+      description: "🏠 Moradia",
+      isExpense: true,
     },
     {
       id: 7,
-      description: "Contas",
+      description: "💡 Contas",
+      isExpense: true,
     },
     {
       id: 8,
-      description: "Lazer",
+      description: "🕹 Lazer",
+      isExpense: true,
     },
     {
       id: 9,
-      description: "Saúde",
+      description: "💊 Saúde",
+      isExpense: true,
     },
     {
       id: 10,
-      description: "Educação",
+      description: "📚 Educação",
+      isExpense: true,
     },
     {
       id: 11,
-      description: "Compras",
+      description: "💳 Compras",
+      isExpense: true,
     },
     {
       id: 12,
-      description: "Viagem",
+      description: "✈ Viagem",
+      isExpense: true,
     },
     {
       id: 13,
-      description: "Outros",
+      description: "📌 Outros",
+      isOther: true,
     },
   ]);
 
   useEffect(() => {}, []);
 
-  function exitModal() {
-    setShowModal(false);
+  function openModalWarning(type) {
+    if (type === "success") {
+      setShowSuccess(true);
+    } else if (type === "error") {
+      setShowError(true);
+    } else if (type === "alert") {
+      setShowAlert(true);
+    }
+    setTimeout(() => {
+      setShowSuccess(false);
+      setShowError(false);
+      setShowAlert(false);
+    }, 2000);
+  }
+
+  function exitModal(type) {
+    if (type === "warning") {
+      setShowSuccess(false);
+      setShowError(false);
+      setShowAlert(false);
+    } else setShowNewExpense(false);
   }
   function addExpense(expense) {
     setExpense((prev) => [...prev, expense]);
@@ -76,20 +111,44 @@ function Home() {
   // const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col">
+    <div className="flex flex-col relative">
       {/* Modals */}
 
-      <AnimatePresence>
-        {showModal && (
+      <AnimatePresence className>
+        {showNewExpense && (
           <ModalNewExpense
             onAddExpense={addExpense}
             onExitModal={exitModal}
+            openModalWarning={openModalWarning}
             options={options}
           />
         )}
-        <ModalWarning onExitModal={exitModal} type="success" />
+        {showSuccess && (
+          <ModalWarning
+            key={Date.now()}
+            onExitModal={exitModal}
+            type="success"
+            text="Operação realizada com sucesso!"
+          />
+        )}
+        {showError && (
+          <ModalWarning
+            key={Date.now()}
+            onExitModal={exitModal}
+            type="error"
+            text="Parece que ocorreu um erro! Tente novamente."
+          />
+        )}
+        {showAlert && (
+          <ModalWarning
+            key={Date.now()}
+            onExitModal={exitModal}
+            type="alert"
+            text="É necessário preencher todos os campos!"
+          />
+        )}
       </AnimatePresence>
-      <Title onClick={() => setShowModal(true)}>Gerenciar despesas</Title>
+      <Title onClick={() => setShowNewExpense(true)}>Gerenciar despesas</Title>
 
       {/* ------ */}
 

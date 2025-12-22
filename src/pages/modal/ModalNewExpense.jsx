@@ -3,18 +3,23 @@ import AddExpense from "../../components/AddExpense";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 
-function ModalNewExpense({ onAddExpense, onExitModal, options }) {
+function ModalNewExpense({
+  onAddExpense,
+  onExitModal,
+  openModalWarning,
+  options,
+}) {
   return (
     <motion.div
-      className="fixed inset-0 flex justify-center items-center bg-black/40"
+      className="fixed inset-0 flex justify-center items-center bg-black/40 backdrop-blur-sm z-50"
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      onClick={onExitModal}
+      onClick={() => onExitModal()}
     >
       <motion.div
-        className="w-[90%] h-[90%] bg-white border border-slate-200 rounded-md shadow"
+        className="w-[25%] h-[80%] bg-white border border-slate-200 rounded-2xl shadow"
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
@@ -30,7 +35,8 @@ function ModalNewExpense({ onAddExpense, onExitModal, options }) {
           <AddExpense
             options={options}
             onAddExpense={onAddExpense}
-            onExitModal={onExitModal}
+            onExitModal={() => onExitModal()}
+            openModalWarning={openModalWarning}
           ></AddExpense>
         </div>
       </motion.div>

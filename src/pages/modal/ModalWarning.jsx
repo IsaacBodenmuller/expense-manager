@@ -1,9 +1,10 @@
 import { X, CircleAlert, CircleX, CircleCheck } from "lucide-react";
 import { motion } from "framer-motion";
 import ProgressBar from "../../components/elements/ProgressBar";
+import { useEffect } from "react";
 // import { useEffect } from "react";
 
-function ModalWarning({ onExitModal, type }) {
+function ModalWarning({ onExitModal, type, text }) {
   const stylesByType = {
     alert: {
       bg: "bg-yellow-200",
@@ -24,17 +25,24 @@ function ModalWarning({ onExitModal, type }) {
       icon: <CircleCheck />,
     },
   };
-
   const styles = stylesByType[type] || stylesByType.warning;
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      onExitModal("warning");
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, [onExitModal]);
 
   return (
     <motion.div
-      className="absolute top-10 right-20 flex flex-col justify-center"
+      className="absolute top-10 right-20 flex flex-col justify-center z-50"
       initial={{ display: "none" }}
       animate={{ display: "flex" }}
       exit={{ display: "none" }}
       transition={{ duration: 0.2 }}
-      onClick={onExitModal}
+      onClick={() => onExitModal("warning")}
     >
       <motion.div
         className={`max-w-96 h-fit border rounded-md shadow flex flex-col ${styles.bg} ${styles.border}`}
@@ -52,21 +60,17 @@ function ModalWarning({ onExitModal, type }) {
           </div>
           <div className="flex items-center pl-5 py-2">
             <div className="">
-              <span>É necessário preencher todos os campos</span>
+              <span>{text}</span>
             </div>
             <div
               className="cursor-pointer flex justify-between border-slate-200 py-4 px-4"
-              onClick={onExitModal}
+              onClick={() => onExitModal("warning")}
             >
               <X />
             </div>
           </div>
         </div>
-        <ProgressBar
-          duration={2}
-          onFinish={onExitModal}
-          styles={styles}
-        ></ProgressBar>
+        <ProgressBar duration={2} styles={styles}></ProgressBar>
       </motion.div>
     </motion.div>
   );
