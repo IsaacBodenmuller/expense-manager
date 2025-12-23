@@ -19,7 +19,7 @@ function ModalNewExpense({
       onClick={() => onExitModal()}
     >
       <motion.div
-        className="w-[25%] h-[80%] bg-white border border-slate-200 rounded-2xl shadow"
+        className="min-w-[320px] min-h-[570px] sm:min-h-[570px] lg:min-h-[500px] w-[25%] bg-white border border-slate-200 rounded-2xl shadow"
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
@@ -27,7 +27,9 @@ function ModalNewExpense({
         onClick={(e) => e.stopPropagation()}
       >
         <div className="flex justify-between border-b border-slate-200 py-6 px-8">
-          <Title>Nova Transação</Title>
+          <Title size="lg" weight="medium">
+            Nova Transação
+          </Title>
           <X className="cursor-pointer" onClick={onExitModal} />
         </div>
 

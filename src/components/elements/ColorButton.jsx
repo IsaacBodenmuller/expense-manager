@@ -1,13 +1,4 @@
-import { ArrowUpRight, ArrowDownRight } from "lucide-react";
-
 function ColorButton(props) {
-  const icon =
-    props.direction === "up" ? (
-      <ArrowUpRight />
-    ) : props.direction === "down" ? (
-      <ArrowDownRight />
-    ) : null;
-
   const style = {
     green:
       "bg-green-400 hover:bg-green-500 text-white shadow-lg shadow-green-500/50",
@@ -23,7 +14,6 @@ function ColorButton(props) {
         style[props.color]
       } rounded-xl px-2 py-2 w-full flex gap-2 items-center justify-center min-h-[45px]`}
     >
-      {icon}
       {props.children}
     </button>
   );

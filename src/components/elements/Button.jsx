@@ -1,6 +1,7 @@
 function Button(props) {
   const style = {
     white: "bg-white hover:bg-slate-100 text-slate-500",
+    darkGray: "bg-gray-800 hover:bg-gray-700 text-white",
   };
   return (
     <button

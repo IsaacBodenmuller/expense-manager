@@ -1,14 +1,18 @@
 // import { useNavigate } from "react-router-dom";
-// import AddExpense from "../components/AddExpense";
-import Grid from "../components/Grid";
-import { AnimatePresence } from "framer-motion";
+import Button from "../components/elements/Button";
+import GridTransacoes from "../components/GridTransacoes";
 import Title from "../components/elements/Title";
+import TextWithIcon from "../components/elements/TextWithIcon";
+import { AnimatePresence } from "framer-motion";
 import ModalNewExpense from "./modal/ModalNewExpense";
-import { useEffect, useState } from "react";
 import ModalWarning from "./modal/ModalWarning";
+import { useEffect, useState } from "react";
+import { Plus } from "lucide-react";
 
 function Home() {
-  const [expenses, setExpense] = useState([]);
+  const [expenses, setExpense] = useState(
+    JSON.parse(localStorage.getItem("expenses")) || []
+  );
   const [showNewExpense, setShowNewExpense] = useState(false);
   const [showSuccess, setShowSuccess] = useState(false);
   const [showError, setShowError] = useState(false);
@@ -30,7 +34,7 @@ function Home() {
       id: 3,
       icon: "📈",
       description: "Investimento",
-      isExpense: false,
+      isOther: true,
     },
     {
       id: 4,
@@ -94,7 +98,9 @@ function Home() {
     },
   ]);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   function openModalWarning(type) {
     if (type === "success") {
@@ -124,7 +130,7 @@ function Home() {
   // const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col relative">
+    <div className="flex flex-col relative py-8">
       {/* Modals */}
 
       <AnimatePresence className>
@@ -161,16 +167,31 @@ function Home() {
           />
         )}
       </AnimatePresence>
-      <Title onClick={() => setShowNewExpense(true)}>Gerenciar despesas</Title>
-
       {/* ------ */}
 
-      {/* <AddExpense options={options} onAddExpense={addExpense}></AddExpense> */}
-      <Grid
-        expenses={expenses}
-        title="Transações Recentes"
-        options={options}
-      ></Grid>
+      <div className="flex flex-col justify-center gap-8">
+        <div className="flex flex-col gap-2">
+          <div>
+            <Title size="xl" weight="medium" position="start">
+              Dashboard
+            </Title>
+            <span className="text-slate-500 text-base">
+              Visão geral das suas finanças
+            </span>
+          </div>
+          <Button onClick={() => setShowNewExpense(true)} color="darkGray">
+            <TextWithIcon iconSize="4" side="left" icon={Plus}>
+              Nova Transação
+            </TextWithIcon>
+          </Button>
+        </div>
+        <GridTransacoes
+          expenses={expenses}
+          title="Transações Recentes"
+          options={options}
+          className="shadow-md"
+        ></GridTransacoes>
+      </div>
     </div>
   );
 }

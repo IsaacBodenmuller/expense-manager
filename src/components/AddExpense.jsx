@@ -6,6 +6,8 @@ import Button from "./elements/Button";
 import ColorButton from "./elements/ColorButton";
 import { useState } from "react";
 import { v4 } from "uuid";
+import TextWithIcon from "./elements/TextWithIcon";
+import { ArrowUpRight, ArrowDownRight, Plus } from "lucide-react";
 
 function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
   const [description, setDescription] = useState("");
@@ -45,6 +47,7 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
       type,
       isExpense,
       date,
+      note,
     };
     onAddExpense(newExpense);
 
@@ -64,7 +67,7 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
   };
 
   return (
-    <div className="flex flex-col gap-8 py-4 px-4 w-full">
+    <div className="flex flex-col gap-6 py-4 px-4 w-full">
       <div className="flex w-full justify-evenly gap-4">
         {!isExpense && (
           <>
@@ -73,14 +76,18 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
               direction={"up"}
               onClick={() => setIsExpense(false)}
             >
-              Receita
+              <TextWithIcon iconSize="5" side="left" icon={ArrowUpRight}>
+                Receita
+              </TextWithIcon>
             </ColorButton>
             <ColorButton
               color={"gray"}
               direction={"down"}
               onClick={() => setIsExpense(true)}
             >
-              Despesa
+              <TextWithIcon iconSize="5" side="left" icon={ArrowDownRight}>
+                Despesa
+              </TextWithIcon>
             </ColorButton>
           </>
         )}
@@ -91,14 +98,18 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
               direction={"up"}
               onClick={() => setIsExpense(false)}
             >
-              Receita
+              <TextWithIcon iconSize="5" side="left" icon={ArrowUpRight}>
+                Receita
+              </TextWithIcon>
             </ColorButton>
             <ColorButton
               color={"red"}
               direction={"down"}
               onClick={() => setIsExpense(true)}
             >
-              Despesa
+              <TextWithIcon iconSize="5" side="left" icon={ArrowDownRight}>
+                Despesa
+              </TextWithIcon>
             </ColorButton>
           </>
         )}
@@ -112,7 +123,7 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
         placeholder="Ex: Compra no mercado"
       />
 
-      <div className="flex gap-4 sm:flex-col md:flex-row w-full">
+      <div className="flex gap-6 flex-col md:flex-col lg:flex-row w-full ">
         <div className="flex-1">
           <InputValue
             type="text"
@@ -149,12 +160,16 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
         </Button>
         {isExpense && (
           <ColorButton onClick={onClickButton} color={"red"}>
-            Adicionar +
+            <TextWithIcon side="right" icon={Plus}>
+              Adicionar
+            </TextWithIcon>
           </ColorButton>
         )}
         {!isExpense && (
           <ColorButton onClick={onClickButton} color={"green"}>
-            Adicionar +
+            <TextWithIcon side="right" icon={Plus}>
+              Adicionar
+            </TextWithIcon>
           </ColorButton>
         )}
       </div>
