@@ -7,6 +7,7 @@ import { AnimatePresence } from "framer-motion";
 import ModalNewExpense from "./modal/ModalNewExpense";
 import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
+import GridCards from "../components/GridCards";
 
 function Home({ onOpenModalWarning, options }) {
   const [showNewExpense, setShowNewExpense] = useState(false);
@@ -27,7 +28,7 @@ function Home({ onOpenModalWarning, options }) {
   // const navigate = useNavigate();
 
   return (
-    <div className="flex flex-col relative py-8">
+    <div className="flex flex-col h-full pr-4 relative py-8 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 overflow-y-auto">
       {/* Modals */}
       <AnimatePresence className>
         {showNewExpense && (
@@ -57,6 +58,7 @@ function Home({ onOpenModalWarning, options }) {
             </TextWithIcon>
           </Button>
         </div>
+        <GridCards expenses={expenses}></GridCards>
         <GridTransacoes
           expenses={expenses}
           title="Transações Recentes"

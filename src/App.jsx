@@ -102,7 +102,7 @@ function App() {
   }
 
   return (
-    <div className="w-full h-screen">
+    <div className="w-full h-screen overflow-hidden">
       {/* Modal Warning */}
       <AnimatePresence>
         {warning && (
@@ -121,9 +121,9 @@ function App() {
         )}
       </AnimatePresence>
 
-      <NavBar onOpenMenu={() => setIsOpenMenu(true)} />
+      <NavBar onOpenMenu={handleOpenMenu} />
 
-      <div className="p-4 pt-14">
+      <div className="pl-4 pt-14 overflow-hidden h-full">
         <Home options={options} onOpenModalWarning={openModalWarning} />
       </div>
 

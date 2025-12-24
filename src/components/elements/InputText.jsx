@@ -6,7 +6,7 @@ function InputText(props) {
       </label>
 
       <input
-        className="rounded-xl px-4 py-2 pt-3 bg-white border border-slate-200 outline-slate-300 text-slate-400 font-light "
+        className="rounded-xl px-4 py-2 pt-3 bg-white border border-slate-200 outline-slate-300 text-slate-700 font-normal "
         type={props.type}
         value={props.value}
         onChange={props.onChange}

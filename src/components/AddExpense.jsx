@@ -36,7 +36,7 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
     : "R$ 0,00";
 
   function handleAdd() {
-    if (!description.trim() || !value.trim() || !type.trim()) {
+    if (!description.trim() || !value || !type) {
       openModalWarning("alert");
       return false;
     }
@@ -115,6 +115,12 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
         )}
       </div>
 
+      <InputOption
+        title="Categoria"
+        options={filteredOptions}
+        value={type}
+        onChange={(id) => setType(id)}
+      />
       <InputText
         type="text"
         title="Descrição"
@@ -123,7 +129,7 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
         placeholder="Ex: Compra no mercado"
       />
 
-      <div className="flex gap-6 flex-col md:flex-col lg:flex-row w-full ">
+      <div className="flex gap-6 flex-col md:flex-col lg:flex-col xl:flex-col 2xl:flex-row w-full ">
         <div className="flex-1">
           <InputValue
             type="text"
@@ -140,13 +146,6 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
           />
         </div>
       </div>
-
-      <InputOption
-        title="Categoria"
-        options={filteredOptions}
-        value={type}
-        onChange={(e) => setType(e.target.value)}
-      />
 
       <InputText
         title="Notas (Opcional)"

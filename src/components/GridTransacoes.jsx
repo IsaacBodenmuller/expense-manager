@@ -60,7 +60,11 @@ function GridTransacoes({ expenses, title, options }) {
           expenses.map((expense) => (
             <div
               key={expense.id}
-              onClick={() => setSelectedId(expense.id)}
+              onClick={() =>
+                setSelectedId((prev) =>
+                  prev === expense.id ? null : expense.id
+                )
+              }
               className={` flex items-center rounded-xl py-2 px-4 gap-4 h-[65px] cursor-pointer transition-colors justify-between ${
                 selectedId === expense.id
                   ? "bg-slate-200"

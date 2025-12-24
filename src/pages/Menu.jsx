@@ -6,7 +6,7 @@ function Menu({ onClose }) {
   return (
     <>
       <motion.div
-        className="bg-black/40 fixed inset-0 z-40"
+        className="bg-black/40 backdrop-blur-sm fixed inset-0 z-40"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
@@ -27,7 +27,7 @@ function Menu({ onClose }) {
             <X className="cursor-pointer" onClick={onClose} />
           </div>
         </div>
-        <nav className="flex flex-col gap-4">
+        <nav className="flex flex-col gap-4 pt-8">
           <span>Dashboard</span>
           <span>Transações</span>
           <span>Configurações</span>

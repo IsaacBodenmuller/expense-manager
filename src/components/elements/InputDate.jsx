@@ -7,7 +7,7 @@ function InputDate({ title, value, onChange }) {
 
       <input
         type="date"
-        className="rounded-xl px-4 py-2 pt-3 bg-white border border-slate-200 outline-slate-300 text-slate-400 font-light w-full"
+        className="rounded-xl px-4 py-2 pt-3 bg-white border border-slate-200 outline-slate-300 text-slate-700 font-normal w-full"
         onChange={onChange}
         value={value}
       />

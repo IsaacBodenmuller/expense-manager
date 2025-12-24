@@ -37,7 +37,7 @@ function ModalWarning({ onExitModal, type, text }) {
 
   return (
     <motion.div
-      className="absolute top-10 right-20 flex flex-col justify-center z-50"
+      className="flex flex-col justify-center z-[9999] fixed top-4 justify-self-end pr-4"
       initial={{ display: "none" }}
       animate={{ display: "flex" }}
       exit={{ display: "none" }}
@@ -45,7 +45,7 @@ function ModalWarning({ onExitModal, type, text }) {
       onClick={onExitModal}
     >
       <motion.div
-        className={`max-w-96 h-fit border rounded-md shadow flex flex-col ${styles.bg} ${styles.border}`}
+        className={`max-w-96 w-80 lg:w-fit h-fit border rounded-lg shadow flex flex-col ${styles.bg} ${styles.border} z-50`}
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}
@@ -54,7 +54,7 @@ function ModalWarning({ onExitModal, type, text }) {
       >
         <div className="flex">
           <div
-            className={`w-[15%] justify-center items-center flex ${styles.bgIcon}`}
+            className={`w-[15%] justify-center items-center flex rounded-tl-md ${styles.bgIcon}`}
           >
             {styles.icon}
           </div>
