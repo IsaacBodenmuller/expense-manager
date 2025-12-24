@@ -42,7 +42,7 @@ function ModalWarning({ onExitModal, type, text }) {
       animate={{ display: "flex" }}
       exit={{ display: "none" }}
       transition={{ duration: 0.2 }}
-      onClick={() => onExitModal("warning")}
+      onClick={onExitModal}
     >
       <motion.div
         className={`max-w-96 h-fit border rounded-md shadow flex flex-col ${styles.bg} ${styles.border}`}
@@ -64,7 +64,7 @@ function ModalWarning({ onExitModal, type, text }) {
             </div>
             <div
               className="cursor-pointer flex justify-between border-slate-200 py-4 px-4"
-              onClick={() => onExitModal("warning")}
+              onClick={onExitModal}
             >
               <X />
             </div>

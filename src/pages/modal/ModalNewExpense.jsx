@@ -37,7 +37,7 @@ function ModalNewExpense({
           <AddExpense
             options={options}
             onAddExpense={onAddExpense}
-            onExitModal={() => onExitModal()}
+            onExitModal={onExitModal}
             openModalWarning={openModalWarning}
           ></AddExpense>
         </div>
