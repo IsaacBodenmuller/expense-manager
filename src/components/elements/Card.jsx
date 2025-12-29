@@ -1,7 +1,7 @@
 import { Wallet, TrendingUp, TrendingDown, PiggyBank } from "lucide-react";
 import Title from "./Title";
 
-function Card({ type, value, selected, onClick }) {
+export default function Card({ type, value, selected, onClick }) {
   const style = {
     total: "bg-blue-100 border-blue-300 hover:bg-blue-200",
     receita: "bg-green-100 border-green-300 hover:bg-green-200",
@@ -57,4 +57,3 @@ function Card({ type, value, selected, onClick }) {
     </div>
   );
 }
-export default Card;

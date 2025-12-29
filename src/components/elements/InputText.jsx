@@ -1,4 +1,4 @@
-function InputText(props) {
+export default function InputText(props) {
   return (
     <div className="flex flex-col relative">
       <label className="bg-white absolute -top-2 left-2 h-5 w-fit text-left px-4 text-slate-500 text-xs">
@@ -15,5 +15,3 @@ function InputText(props) {
     </div>
   );
 }
-
-export default InputText;

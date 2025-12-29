@@ -9,7 +9,12 @@ import { v4 } from "uuid";
 import TextWithIcon from "./elements/TextWithIcon";
 import { ArrowUpRight, ArrowDownRight, Plus } from "lucide-react";
 
-function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
+export default function AddExpense({
+  options,
+  onAddExpense,
+  onExitModal,
+  openModalWarning,
+}) {
   const [description, setDescription] = useState("");
   const [value, setValue] = useState("");
   const [type, setType] = useState("");
@@ -175,4 +180,3 @@ function AddExpense({ options, onAddExpense, onExitModal, openModalWarning }) {
     </div>
   );
 }
-export default AddExpense;

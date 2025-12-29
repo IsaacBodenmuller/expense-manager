@@ -4,8 +4,9 @@ import Menu from "./pages/Menu";
 import NavBar from "./pages/NavBar";
 import ModalWarning from "./pages/modal/ModalWarning";
 import { useState } from "react";
+import "./App.css";
 
-function App() {
+export default function App() {
   const [warning, setWarning] = useState(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
@@ -133,5 +134,3 @@ function App() {
     </div>
   );
 }
-
-export default App;

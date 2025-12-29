@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import Title from "../components/elements/Title";
 
-function Menu({ onClose }) {
+export default function Menu({ onClose }) {
   return (
     <>
       <motion.div
@@ -36,4 +36,3 @@ function Menu({ onClose }) {
     </>
   );
 }
-export default Menu;

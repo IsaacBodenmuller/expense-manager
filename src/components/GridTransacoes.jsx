@@ -3,7 +3,7 @@ import Title from "./elements/Title";
 import { useState } from "react";
 import TextWithIcon from "./elements/TextWithIcon";
 
-function GridTransacoes({ expenses, title, options }) {
+export default function GridTransacoes({ expenses, title, options }) {
   const [selectedId, setSelectedId] = useState(null);
 
   const getTypeDescription = (id) =>
@@ -33,10 +33,18 @@ function GridTransacoes({ expenses, title, options }) {
     return year === currentYear ? formatted : `${formatted} de ${year}`;
   };
 
+  const expensesGrid = (expenses) => {
+    return expenses
+      .slice()
+      .sort((a, b) => new Date(b.date) - new Date(a.date))
+      .slice(0, 5);
+  };
+  const lastExpenses = expensesGrid(expenses);
+
   return (
     <div className="flex flex-col gap-2 px-2 py-4 border rounded-2xl border-slate-200">
       <div className="flex justify-between gap-4 px-2">
-        <Title size="lg" weight="medium">
+        <Title size="base" weight="medium">
           {title}
         </Title>
         {expenses.length != 0 && (
@@ -53,11 +61,11 @@ function GridTransacoes({ expenses, title, options }) {
 
       <div className="flex flex-col gap-2 overflow-hidden">
         {expenses.length === 0 ? (
-          <span className="self-center text-slate-400">
+          <span className="self-center text-slate-400 text-sm">
             Nenhum dado encontrado
           </span>
         ) : (
-          expenses.map((expense) => (
+          lastExpenses.map((expense) => (
             <div
               key={expense.id}
               onClick={() =>
@@ -112,5 +120,3 @@ function GridTransacoes({ expenses, title, options }) {
     </div>
   );
 }
-
-export default GridTransacoes;

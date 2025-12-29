@@ -1,6 +1,6 @@
 import { motion } from "framer-motion";
 
-function ProgressBar({ duration = 2, styles }) {
+export default function ProgressBar({ duration = 2, styles }) {
   return (
     <div className="w-full h-2 bg-slate-200 overflow-hidden rounded-b-md z-[9999]">
       <motion.div
@@ -12,4 +12,3 @@ function ProgressBar({ duration = 2, styles }) {
     </div>
   );
 }
-export default ProgressBar;

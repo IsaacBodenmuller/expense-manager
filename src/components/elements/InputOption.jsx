@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown } from "lucide-react";
 
-function InputOption({ title, options, value, onChange }) {
+export default function InputOption({ title, options, value, onChange }) {
   const buttonRef = useRef(null);
   const [openUp, setOpenUp] = useState(false);
   const [open, setOpen] = useState(false);
@@ -71,7 +71,6 @@ function InputOption({ title, options, value, onChange }) {
     </div>
   );
 }
-export default InputOption;
 
 // export default CategorySelect;
 

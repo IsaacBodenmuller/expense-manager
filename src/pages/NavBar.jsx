@@ -1,7 +1,7 @@
 import { Menu, Wallet } from "lucide-react";
 import Title from "../components/elements/Title";
 
-function NavBar({ onOpenMenu }) {
+export default function NavBar({ onOpenMenu }) {
   return (
     <div className="bg-white/80 backdrop-blur-sm fixed flex h-14 w-full justify-between p-4 border-b border-slate-300 z-30 items-center">
       <div className="flex gap-4">
@@ -21,4 +21,3 @@ function NavBar({ onOpenMenu }) {
     </div>
   );
 }
-export default NavBar;

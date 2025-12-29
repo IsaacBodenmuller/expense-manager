@@ -4,7 +4,7 @@ import ProgressBar from "../../components/elements/ProgressBar";
 import { useEffect } from "react";
 // import { useEffect } from "react";
 
-function ModalWarning({ onExitModal, type, text }) {
+export default function ModalWarning({ onExitModal, type, text }) {
   const stylesByType = {
     alert: {
       bg: "bg-yellow-200",
@@ -75,4 +75,3 @@ function ModalWarning({ onExitModal, type, text }) {
     </motion.div>
   );
 }
-export default ModalWarning;

@@ -1,6 +1,8 @@
 // import { useNavigate } from "react-router-dom";
 import Button from "../components/elements/Button";
 import GridTransacoes from "../components/GridTransacoes";
+import LinearGraphic from "../components/LinearGraphic";
+import CategoryGraphic from "../components/CategoryGraphic";
 import Title from "../components/elements/Title";
 import TextWithIcon from "../components/elements/TextWithIcon";
 import { AnimatePresence } from "framer-motion";
@@ -9,7 +11,7 @@ import { useEffect, useState } from "react";
 import { Plus } from "lucide-react";
 import GridCards from "../components/GridCards";
 
-function Home({ onOpenModalWarning, options }) {
+export default function Home({ onOpenModalWarning, options }) {
   const [showNewExpense, setShowNewExpense] = useState(false);
   const [expenses, setExpense] = useState(
     JSON.parse(localStorage.getItem("expenses")) || []
@@ -59,6 +61,11 @@ function Home({ onOpenModalWarning, options }) {
           </Button>
         </div>
         <GridCards expenses={expenses}></GridCards>
+        <LinearGraphic></LinearGraphic>
+        <CategoryGraphic
+          expenses={expenses}
+          options={options}
+        ></CategoryGraphic>
         <GridTransacoes
           expenses={expenses}
           title="Transações Recentes"
@@ -69,5 +76,3 @@ function Home({ onOpenModalWarning, options }) {
     </div>
   );
 }
-
-export default Home;

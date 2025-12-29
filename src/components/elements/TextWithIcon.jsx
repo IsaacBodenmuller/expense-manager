@@ -1,4 +1,4 @@
-function TextWithIcon({
+export default function TextWithIcon({
   side,
   icon: Icon,
   iconSize = "4",
@@ -30,4 +30,3 @@ function TextWithIcon({
     </div>
   );
 }
-export default TextWithIcon;

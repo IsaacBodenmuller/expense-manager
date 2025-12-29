@@ -3,7 +3,7 @@ import AddExpense from "../../components/AddExpense";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 
-function ModalNewExpense({
+export default function ModalNewExpense({
   onAddExpense,
   onExitModal,
   openModalWarning,
@@ -45,4 +45,3 @@ function ModalNewExpense({
     </motion.div>
   );
 }
-export default ModalNewExpense;

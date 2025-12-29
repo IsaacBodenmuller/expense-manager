@@ -1,4 +1,10 @@
-function Title({ children, position = "start", size, weight, onClick }) {
+export default function Title({
+  children,
+  position = "start",
+  size,
+  weight,
+  onClick,
+}) {
   const textSize = {
     xs: "text-xs",
     sm: "text-sm",
@@ -29,4 +35,3 @@ function Title({ children, position = "start", size, weight, onClick }) {
     </h1>
   );
 }
-export default Title;

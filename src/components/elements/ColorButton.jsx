@@ -1,4 +1,4 @@
-function ColorButton(props) {
+export default function ColorButton(props) {
   const style = {
     green:
       "bg-green-400 hover:bg-green-500 text-white shadow-lg shadow-green-500/50",
@@ -18,4 +18,3 @@ function ColorButton(props) {
     </button>
   );
 }
-export default ColorButton;

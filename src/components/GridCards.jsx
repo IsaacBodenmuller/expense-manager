@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Card from "./elements/Card";
 
-function GridCards({ expenses }) {
+export default function GridCards({ expenses }) {
   const [selected, setSelected] = useState(null);
 
   const receita = expenses
@@ -35,5 +35,3 @@ function GridCards({ expenses }) {
     </div>
   );
 }
-
-export default GridCards;
