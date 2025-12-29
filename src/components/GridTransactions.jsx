@@ -3,7 +3,7 @@ import Title from "./elements/Title";
 import { useState } from "react";
 import TextWithIcon from "./elements/TextWithIcon";
 
-export default function GridTransacoes({ expenses, title, options }) {
+export default function GridTransactions({ expenses, title, options }) {
   const [selectedId, setSelectedId] = useState(null);
 
   const getTypeDescription = (id) =>
@@ -48,14 +48,16 @@ export default function GridTransacoes({ expenses, title, options }) {
           {title}
         </Title>
         {expenses.length != 0 && (
-          <TextWithIcon
-            iconSize="4"
-            fontSize="sm"
-            side="right"
-            icon={ArrowRight}
-          >
-            Ver todas
-          </TextWithIcon>
+          <div className="hover:bg-gray-100 py-1 px-3 rounded-md text-slate-500 hover:text-black cursor-pointer">
+            <TextWithIcon
+              iconSize="3"
+              fontSize="xs"
+              side="right"
+              icon={ArrowRight}
+            >
+              Ver todas
+            </TextWithIcon>
+          </div>
         )}
       </div>
 

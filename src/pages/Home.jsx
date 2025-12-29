@@ -1,6 +1,6 @@
 // import { useNavigate } from "react-router-dom";
 import Button from "../components/elements/Button";
-import GridTransacoes from "../components/GridTransacoes";
+import GridTransactions from "../components/GridTransactions";
 import LinearGraphic from "../components/LinearGraphic";
 import CategoryGraphic from "../components/CategoryGraphic";
 import Title from "../components/elements/Title";
@@ -60,18 +60,19 @@ export default function Home({ onOpenModalWarning, options }) {
             </TextWithIcon>
           </Button>
         </div>
-        <GridCards expenses={expenses}></GridCards>
-        <LinearGraphic></LinearGraphic>
-        <CategoryGraphic
-          expenses={expenses}
-          options={options}
-        ></CategoryGraphic>
-        <GridTransacoes
+
+        <GridCards expenses={expenses} />
+
+        <LinearGraphic expenses={expenses} />
+
+        <CategoryGraphic expenses={expenses} options={options} />
+
+        <GridTransactions
           expenses={expenses}
           title="Transações Recentes"
           options={options}
           className="shadow-md"
-        ></GridTransacoes>
+        />
       </div>
     </div>
   );
