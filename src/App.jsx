@@ -7,19 +7,32 @@ import { useState } from "react";
 import "./App.css";
 import GoalsPage from "./pages/GoalsPage";
 import TransactionsPage from "./pages/TransactionsPage";
-import ModalNewExpense from "./pages/modal/ModalNewExpense";
-import ModalNewGoal from "./pages/modal/ModalNewGoal";
+import ModalAdd from "./pages/modal/ModalAdd";
+// import ModalNewGoal from "./pages/modal/ModalNewGoal";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState("goals");
   const [warning, setWarning] = useState(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [showNewExpense, setShowNewExpense] = useState(false);
   const [showNewGoal, setShowNewGoal] = useState(false);
+  const [pages, setPages] = useState(["Home"]);
 
-  const goPage = (page) => {
+  const handleGoPage = (page) => {
     setCurrentPage(page);
     setIsOpenMenu(false);
+
+    if (page === "home") {
+      setPages(["Home"]);
+    }
+
+    if (page === "goals") {
+      setPages(["Home", "Metas"]);
+    }
+
+    if (page === "transactions") {
+      setPages(["Home", "Transações"]);
+    }
   };
 
   const [goals, setGoal] = useState(
@@ -36,8 +49,8 @@ export default function App() {
     setExpense((prev) => [...prev, expense]);
   }
   function handleModal(boolean, type) {
-    if (type === "newExpense") setShowNewExpense(boolean);
-    if (type === "newGoal") setShowNewGoal(boolean);
+    if (type === "expense") setShowNewExpense(boolean);
+    if (type === "goal") setShowNewGoal(boolean);
   }
 
   const [options] = useState([
@@ -150,14 +163,27 @@ export default function App() {
           />
         )}
         {showNewExpense && (
-          <ModalNewExpense
-            onAddExpense={addExpense}
+          <ModalAdd
+            onAdd={addExpense}
             onModalAction={handleModal}
             openModalWarning={openModalWarning}
             options={options}
+            type="expense"
           />
         )}
-        {showNewGoal && <ModalNewGoal />}
+        {showNewGoal && (
+          // <ModalNewGoal
+          //   onAddGoal={addGoal}
+          //   onModalAction={handleModal}
+          //   openModalWarning={openModalWarning}
+          // />
+          <ModalAdd
+            onAdd={addGoal}
+            onModalAction={handleModal}
+            openModalWarning={openModalWarning}
+            type="goal"
+          />
+        )}
       </AnimatePresence>
 
       <NavBar onOpenMenu={handleOpenMenu} />
@@ -169,18 +195,27 @@ export default function App() {
               expenses={expenses}
               goals={goals}
               options={options}
-              onGoPage={goPage}
+              pages={pages}
+              onGoPage={handleGoPage}
               onModalAction={handleModal}
             />
           )}
           {currentPage === "goals" && (
-            <GoalsPage key="goals" onGoPage={goPage} onAddGoal={addGoal} />
+            <GoalsPage
+              key="goals"
+              pages={pages}
+              goals={goals}
+              onGoPage={handleGoPage}
+              onModalAction={handleModal}
+            />
           )}
           {currentPage === "transactions" && (
             <TransactionsPage
               key="transactions"
-              onGoPage={goPage}
-              onAddExpense={addExpense}
+              pages={pages}
+              expenses={expenses}
+              onGoPage={handleGoPage}
+              onModalAction={handleModal}
             />
           )}
         </AnimatePresence>
@@ -191,7 +226,7 @@ export default function App() {
           <Menu
             key="menu"
             currentPage={currentPage}
-            onGoPage={goPage}
+            onGoPage={handleGoPage}
             onClose={() => setIsOpenMenu(false)}
           />
         )}

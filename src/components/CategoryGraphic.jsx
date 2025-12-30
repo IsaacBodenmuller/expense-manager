@@ -49,7 +49,7 @@ export default function CategoryGraphic({ expenses, options }) {
     .filter((item) => item.value > 0);
 
   return (
-    <div className="flex flex-col gap-4 mt-4 h-full border border-slate-200 rounded-xl px-4 py-6">
+    <div className="flex flex-col gap-4 h-full border border-slate-200 rounded-xl px-4 py-6">
       <Title weight="medium" size="base">
         Despesas por Categoria ({currentMonthName})
       </Title>

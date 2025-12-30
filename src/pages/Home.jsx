@@ -13,6 +13,7 @@ export default function Home({
   expenses,
   goals,
   options,
+  pages,
   onModalAction,
   onGoPage,
 }) {
@@ -25,8 +26,14 @@ export default function Home({
   }, [expenses]);
 
   return (
-    <div className="flex flex-col h-full pr-4 relative py-8 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 overflow-y-auto">
-      <div className="flex flex-col justify-center gap-8">
+    <div className="flex flex-col h-full pr-4 relative pt-2 pb-8 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 overflow-y-auto">
+      <div className="flex items-center gap-4 pt-4">
+        <div className="underline text-sm text-slate-500 cursor-default">
+          {pages}
+        </div>
+      </div>
+
+      <div className="flex flex-col justify-center gap-8 pt-4">
         <div className="flex flex-col gap-2">
           <div>
             <Title size="xl" weight="medium" position="start">
@@ -37,7 +44,7 @@ export default function Home({
             </span>
           </div>
           <Button
-            onClick={() => onModalAction(true, "newExpense")}
+            onClick={() => onModalAction(true, "expense")}
             color="darkGray"
           >
             <TextWithIcon iconSize="4" side="left" icon={Plus}>

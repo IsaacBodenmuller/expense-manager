@@ -1,14 +1,34 @@
 import Title from "../../components/elements/Title";
 import AddExpense from "../../components/AddExpense";
+import AddGoal from "../../components/AddGoal";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function ModalNewExpense({
-  onAddExpense,
+export default function ModalAdd({
+  onAdd,
   onModalAction,
   openModalWarning,
-  options,
+  options = [],
+  type,
 }) {
+  const modalType = {
+    expense: (
+      <AddExpense
+        options={options}
+        onAddExpense={onAdd}
+        onExitModal={() => onModalAction(false, type)}
+        openModalWarning={openModalWarning}
+      />
+    ),
+    goal: (
+      <AddGoal
+        onAddGoal={onAdd}
+        onExitModal={() => onModalAction(false, type)}
+        openModalWarning={openModalWarning}
+      />
+    ),
+  };
+
   return (
     <motion.div
       className="fixed inset-0 flex justify-center items-center bg-black/40 backdrop-blur-sm z-50"
@@ -16,7 +36,7 @@ export default function ModalNewExpense({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      onClick={() => onModalAction(false, "newExpense")}
+      onClick={() => onModalAction(false, type)}
     >
       <motion.div
         className="min-w-[320px] min-h-[570px] sm:min-h-[570px] lg:min-h-[500px] w-[25%] bg-white border border-slate-200 rounded-2xl shadow"
@@ -28,22 +48,16 @@ export default function ModalNewExpense({
       >
         <div className="flex justify-between border-b border-slate-200 py-6 px-8">
           <Title size="lg" weight="medium">
-            Nova Transação
+            {type === "expense" && "Nova Transação"}
+            {type === "goal" && "Nova Meta"}
           </Title>
           <X
             className="cursor-pointer"
-            onClick={() => onModalAction(false, "newExpense")}
+            onClick={() => onModalAction(false, type)}
           />
         </div>
 
-        <div>
-          <AddExpense
-            options={options}
-            onAddExpense={onAddExpense}
-            onExitModal={() => onModalAction(false, "newExpense")}
-            openModalWarning={openModalWarning}
-          ></AddExpense>
-        </div>
+        <div>{modalType[type]}</div>
       </motion.div>
     </motion.div>
   );
