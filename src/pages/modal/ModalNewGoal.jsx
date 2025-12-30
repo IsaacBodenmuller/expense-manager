@@ -3,9 +3,9 @@ import AddExpense from "../../components/AddExpense";
 import { X } from "lucide-react";
 import { motion } from "framer-motion";
 
-export default function ModalNewExpense({
+export default function ModalNewGoal({
   onAddExpense,
-  onModalAction,
+  onExitModal,
   openModalWarning,
   options,
 }) {
@@ -16,7 +16,7 @@ export default function ModalNewExpense({
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.2 }}
-      onClick={() => onModalAction(false, "newExpense")}
+      onClick={() => onExitModal()}
     >
       <motion.div
         className="min-w-[320px] min-h-[570px] sm:min-h-[570px] lg:min-h-[500px] w-[25%] bg-white border border-slate-200 rounded-2xl shadow"
@@ -30,17 +30,14 @@ export default function ModalNewExpense({
           <Title size="lg" weight="medium">
             Nova Transação
           </Title>
-          <X
-            className="cursor-pointer"
-            onClick={() => onModalAction(false, "newExpense")}
-          />
+          <X className="cursor-pointer" onClick={onExitModal} />
         </div>
 
         <div>
           <AddExpense
             options={options}
             onAddExpense={onAddExpense}
-            onExitModal={() => onModalAction(false, "newExpense")}
+            onExitModal={onExitModal}
             openModalWarning={openModalWarning}
           ></AddExpense>
         </div>

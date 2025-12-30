@@ -5,10 +5,40 @@ import NavBar from "./pages/NavBar";
 import ModalWarning from "./pages/modal/ModalWarning";
 import { useState } from "react";
 import "./App.css";
+import GoalsPage from "./pages/GoalsPage";
+import TransactionsPage from "./pages/TransactionsPage";
+import ModalNewExpense from "./pages/modal/ModalNewExpense";
+import ModalNewGoal from "./pages/modal/ModalNewGoal";
 
 export default function App() {
+  const [currentPage, setCurrentPage] = useState("home");
   const [warning, setWarning] = useState(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+  const [showNewExpense, setShowNewExpense] = useState(false);
+  const [showNewGoal, setShowNewGoal] = useState(false);
+
+  const goPage = (page) => {
+    setCurrentPage(page);
+    setIsOpenMenu(false);
+  };
+
+  const [goals, setGoal] = useState(
+    JSON.parse(localStorage.getItem("goals")) || []
+  );
+  const [expenses, setExpense] = useState(
+    JSON.parse(localStorage.getItem("expenses")) || []
+  );
+
+  function addGoal(goal) {
+    setGoal((prev) => [...prev, goal]);
+  }
+  function addExpense(expense) {
+    setExpense((prev) => [...prev, expense]);
+  }
+  function handleModal(boolean, type) {
+    if (type === "newExpense") setShowNewExpense(boolean);
+    if (type === "newGoal") setShowNewGoal(boolean);
+  }
 
   const [options] = useState([
     {
@@ -104,7 +134,6 @@ export default function App() {
 
   return (
     <div className="w-full h-screen overflow-hidden">
-      {/* Modal Warning */}
       <AnimatePresence>
         {warning && (
           <ModalWarning
@@ -120,16 +149,52 @@ export default function App() {
             }
           />
         )}
+        {showNewExpense && (
+          <ModalNewExpense
+            onAddExpense={addExpense}
+            onModalAction={handleModal}
+            openModalWarning={openModalWarning}
+            options={options}
+          />
+        )}
+        {showNewGoal && <ModalNewGoal />}
       </AnimatePresence>
 
       <NavBar onOpenMenu={handleOpenMenu} />
-
       <div className="pl-4 pt-14 overflow-hidden h-full">
-        <Home options={options} onOpenModalWarning={openModalWarning} />
+        <AnimatePresence mode="wait">
+          {currentPage === "home" && (
+            <Home
+              key="home"
+              expenses={expenses}
+              goals={goals}
+              options={options}
+              onGoPage={goPage}
+              onModalAction={handleModal}
+            />
+          )}
+          {currentPage === "goals" && (
+            <GoalsPage key="goals" onGoPage={goPage} onAddGoal={addGoal} />
+          )}
+          {currentPage === "transactions" && (
+            <TransactionsPage
+              key="transactions"
+              onGoPage={goPage}
+              onAddExpense={addExpense}
+            />
+          )}
+        </AnimatePresence>
       </div>
 
       <AnimatePresence>
-        {isOpenMenu && <Menu key="menu" onClose={() => setIsOpenMenu(false)} />}
+        {isOpenMenu && (
+          <Menu
+            key="menu"
+            currentPage={currentPage}
+            onGoPage={goPage}
+            onClose={() => setIsOpenMenu(false)}
+          />
+        )}
       </AnimatePresence>
     </div>
   );

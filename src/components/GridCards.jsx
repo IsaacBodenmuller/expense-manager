@@ -22,7 +22,7 @@ export default function GridCards({ expenses }) {
   const cards = ["total", "receita", "despesa", "economizado"];
 
   return (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-4 ">
       {cards.map((type) => (
         <Card
           key={type}

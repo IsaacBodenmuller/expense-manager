@@ -2,7 +2,13 @@ import { motion } from "framer-motion";
 import { X } from "lucide-react";
 import Title from "../components/elements/Title";
 
-export default function Menu({ onClose }) {
+export default function Menu({ currentPage, onGoPage, onClose }) {
+  const menuItems = [
+    { label: "Home", page: "home" },
+    { label: "Transações", page: "transactions" },
+    { label: "Metas", page: "goals" },
+    { label: "Configurações", page: "settings" },
+  ];
   return (
     <>
       <motion.div
@@ -28,9 +34,27 @@ export default function Menu({ onClose }) {
           </div>
         </div>
         <nav className="flex flex-col gap-4 pt-8">
-          <span>Dashboard</span>
-          <span>Transações</span>
-          <span>Configurações</span>
+          {menuItems.map((item) => {
+            const isActive = currentPage === item.page;
+
+            return (
+              <span
+                key={item.page}
+                onClick={() => {
+                  onGoPage(item.page);
+                  onClose();
+                }}
+                className={`cursor-pointer px-4 py-2 rounded-lg transition
+                ${
+                  isActive
+                    ? "bg-purple-100 text-purple-700 font-medium"
+                    : "text-slate-600 hover:bg-slate-100"
+                }`}
+              >
+                {item.label}
+              </span>
+            );
+          })}
         </nav>
       </motion.aside>
     </>
