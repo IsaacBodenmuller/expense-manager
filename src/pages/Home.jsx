@@ -6,7 +6,6 @@ import TextWithIcon from "../components/elements/TextWithIcon";
 import GridTransactions from "../components/GridTransactions";
 import GridCards from "../components/GridCards";
 import GridGoals from "../components/GridGoals";
-import { useEffect } from "react";
 import { Plus } from "lucide-react";
 
 export default function Home({
@@ -17,14 +16,6 @@ export default function Home({
   onModalAction,
   onGoPage,
 }) {
-  useEffect(() => {
-    localStorage.setItem("goals", JSON.stringify(goals));
-  }, [goals]);
-
-  useEffect(() => {
-    localStorage.setItem("expenses", JSON.stringify(expenses));
-  }, [expenses]);
-
   return (
     <div className="flex flex-col h-full pr-4 relative pt-2 pb-8 scrollbar-thin scrollbar-thumb-gray-400 scrollbar-track-gray-200 overflow-y-auto">
       <div className="flex items-center gap-4 pt-4">

@@ -3,6 +3,7 @@ export default function Title({
   position = "start",
   size,
   weight,
+  color = "text-black",
   onClick,
 }) {
   const textSize = {
@@ -28,7 +29,7 @@ export default function Title({
   };
   return (
     <h1
-      className={`${textPosition[position]} ${textSize[size]} ${textWeight[weight]}`}
+      className={`${color} ${textPosition[position]} ${textSize[size]} ${textWeight[weight]}`}
       onClick={onClick}
     >
       {children}

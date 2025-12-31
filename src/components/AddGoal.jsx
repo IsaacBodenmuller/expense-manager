@@ -4,19 +4,22 @@ import InputDate from "./elements/InputDate";
 import InputValue from "./elements/InputValue";
 import InputText from "./elements/InputText";
 import TextWithIcon from "./elements/TextWithIcon";
+import ColorCircle from "./elements/ColorCircle";
 import { useState } from "react";
 import { v4 } from "uuid";
-import { Plus } from "lucide-react";
 
 export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
-  const [targetValue, setTargetValue] = useState("");
-  const [achievedValue, setAchievedValue] = useState("");
+  const [targetValue, setTargetValue] = useState("1000000");
+  const [achievedValue, setAchievedValue] = useState("0");
   const [description, setDescription] = useState("");
   const [color, setColor] = useState("blue");
   const today = new Date();
   const tomorrow = new Date(today);
   tomorrow.setDate(today.getDate() + 1);
-  const [targetDate, setTargetDate] = useState(tomorrow);
+  const dateFixed = tomorrow.toISOString().split("T")[0];
+  const [targetDate, setTargetDate] = useState(dateFixed);
+
+  const circleColors = ["blue", "green", "purple", "orange", "pink"];
 
   const handleValueChange = (e, type) => {
     const numericValue = e.target.value.replace(/\D/g, "");
@@ -27,17 +30,15 @@ export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
     }
   };
 
-  const formattedValue = (value, type) => {
-    if (value) {
-      return (Number(value) / 100).toLocaleString("pt-BR", {
-        style: "currency",
-        currency: "BRL",
-      });
-    }
-    return type === "target" ? "R$ 10.000,00" : "R$ 0,00";
+  const formattedValue = (value) => {
+    return (Number(value) / 100).toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
   };
+
   function handleAdd() {
-    if (!description.trim() || !targetValue || !achievedValue) {
+    if (!description.trim() || Number(targetValue) === 0) {
       openModalWarning("alert");
       return false;
     }
@@ -48,15 +49,15 @@ export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
       targetValue,
       achievedValue,
       color,
-      isFinished: targetValue === achievedValue,
+      isFinished: Number(achievedValue) >= Number(targetValue),
     };
     onAddGoal(newGoal);
 
     setDescription("");
-    setTargetValue("");
-    setAchievedValue("");
+    setTargetValue("1000000");
+    setAchievedValue("0");
     setColor("blue");
-    setTargetDate(tomorrow);
+    setTargetDate(dateFixed);
 
     openModalWarning("success");
     return true;
@@ -68,48 +69,58 @@ export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
   };
 
   return (
-    <div className="flex flex-col gap-6 py-4 px-4 w-full">
-      <div className="flex flex-col w-full justify-evenly gap-4">
+    <div className="flex flex-col py-6 px-4 w-full">
+      <div className="flex flex-col w-full justify-evenly gap-8">
         <InputText
           type="text"
-          title="Descrição"
+          title="Nome da Meta"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
-          placeholder="Ex: Compra no mercado"
+          placeholder="Ex: Viagem para Europa"
         />
 
-        <div className="flex gap-6 flex-col md:flex-col lg:flex-col xl:flex-col 2xl:flex-row w-full ">
+        <div className="flex gap-6 md:flex-col lg:flex-col xl:flex-col 2xl:flex-row w-full ">
           <div className="flex-1">
             <InputValue
               type="text"
-              title="Valor"
-              value={formattedValue(targetValue, "target")}
+              title="Valor Alvo"
+              value={formattedValue(targetValue)}
               onChange={(e) => handleValueChange(e, "target")}
+              placeholder="aa"
             />
           </div>
           <div className="flex-1">
             <InputValue
               type="text"
-              title="Valor"
-              value={formattedValue(achievedValue, "achieved")}
+              title="Valor Atual"
+              value={formattedValue(achievedValue)}
               onChange={(e) => handleValueChange(e, "achieved")}
             />
           </div>
         </div>
         <InputDate
-          title="Data"
-          //   value={date}
-          //   onChange={(e) => setDate(e.target.value)}
+          title="Prazo"
+          value={targetDate}
+          onChange={(e) => setTargetDate(e.target.value)}
         />
+
+        <div className="flex">
+          {circleColors.map((type) => (
+            <ColorCircle
+              key={type}
+              color={type}
+              isSelected={color === type}
+              onClick={() => setColor(type)}
+            />
+          ))}
+        </div>
 
         <div className="flex w-full justify-center gap-4">
           <Button color={"white"} onClick={onExitModal}>
             Cancelar
           </Button>
           <ColorButton onClick={onClickButton} color={color}>
-            <TextWithIcon side="right" icon={Plus}>
-              Criar Meta
-            </TextWithIcon>
+            <TextWithIcon>Criar Meta</TextWithIcon>
           </ColorButton>
         </div>
       </div>

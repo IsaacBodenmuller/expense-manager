@@ -11,6 +11,10 @@ export default function ModalAdd({
   options = [],
   type,
 }) {
+  const modalHeight = {
+    expense: "min-h-[570px] sm:min-h-[570px] lg:min-h-[500px]",
+    goal: "min-h-[400px] sm:min-h-[470px] lg:min-h-[500px]",
+  };
   const modalType = {
     expense: (
       <AddExpense
@@ -39,7 +43,7 @@ export default function ModalAdd({
       onClick={() => onModalAction(false, type)}
     >
       <motion.div
-        className="min-w-[320px] min-h-[570px] sm:min-h-[570px] lg:min-h-[500px] w-[25%] bg-white border border-slate-200 rounded-2xl shadow"
+        className={`${modalHeight[type]} min-w-[320px] w-[25%] bg-white border border-slate-200 rounded-2xl shadow`}
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
         exit={{ scale: 0.95, opacity: 0 }}

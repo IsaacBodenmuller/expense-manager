@@ -1,8 +1,7 @@
 import { X, CircleAlert, CircleX, CircleCheck } from "lucide-react";
 import { motion } from "framer-motion";
-import ProgressBar from "../../components/elements/ProgressBar";
 import { useEffect } from "react";
-// import { useEffect } from "react";
+import ProgressBar from "../../components/elements/ProgressBar";
 
 export default function ModalWarning({ onExitModal, type, text }) {
   const stylesByType = {
@@ -25,7 +24,7 @@ export default function ModalWarning({ onExitModal, type, text }) {
       icon: <CircleCheck />,
     },
   };
-  const styles = stylesByType[type] || stylesByType.warning;
+  const styles = stylesByType[type] || stylesByType.alert;
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -37,7 +36,7 @@ export default function ModalWarning({ onExitModal, type, text }) {
 
   return (
     <motion.div
-      className="flex flex-col justify-center z-[9999] fixed top-4 justify-self-end pr-4"
+      className="flex flex-col justify-center z-[99999] fixed top-4 justify-self-end pr-4"
       initial={{ display: "none" }}
       animate={{ display: "flex" }}
       exit={{ display: "none" }}
@@ -54,7 +53,7 @@ export default function ModalWarning({ onExitModal, type, text }) {
       >
         <div className="flex">
           <div
-            className={`w-[15%] justify-center items-center flex rounded-tl-md ${styles.bgIcon}`}
+            className={`w-[16%] h-20 justify-center items-center flex rounded-tl-md ${styles.bgIcon}`}
           >
             {styles.icon}
           </div>

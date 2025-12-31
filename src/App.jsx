@@ -3,12 +3,11 @@ import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import NavBar from "./pages/NavBar";
 import ModalWarning from "./pages/modal/ModalWarning";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./App.css";
 import GoalsPage from "./pages/GoalsPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import ModalAdd from "./pages/modal/ModalAdd";
-// import ModalNewGoal from "./pages/modal/ModalNewGoal";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState("goals");
@@ -41,6 +40,13 @@ export default function App() {
   const [expenses, setExpense] = useState(
     JSON.parse(localStorage.getItem("expenses")) || []
   );
+  useEffect(() => {
+    localStorage.setItem("goals", JSON.stringify(goals));
+  }, [goals]);
+
+  useEffect(() => {
+    localStorage.setItem("expenses", JSON.stringify(expenses));
+  }, [expenses]);
 
   function addGoal(goal) {
     setGoal((prev) => [...prev, goal]);
