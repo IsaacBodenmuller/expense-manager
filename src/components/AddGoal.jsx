@@ -5,10 +5,16 @@ import InputValue from "./elements/InputValue";
 import InputText from "./elements/InputText";
 import TextWithIcon from "./elements/TextWithIcon";
 import ColorCircle from "./elements/ColorCircle";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { v4 } from "uuid";
 
-export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
+export default function AddGoal({
+  onAddGoal,
+  editingGoal,
+  onUpdate,
+  onExitModal,
+  openModalWarning,
+}) {
   const [targetValue, setTargetValue] = useState("1000000");
   const [achievedValue, setAchievedValue] = useState("0");
   const [description, setDescription] = useState("");
@@ -18,6 +24,16 @@ export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
   tomorrow.setDate(today.getDate() + 1);
   const dateFixed = tomorrow.toISOString().split("T")[0];
   const [targetDate, setTargetDate] = useState(dateFixed);
+
+  useEffect(() => {
+    if (editingGoal) {
+      setDescription(editingGoal.description);
+      setTargetValue(editingGoal.targetValue);
+      setAchievedValue(editingGoal.achievedValue);
+      setColor(editingGoal.color);
+      setTargetDate(editingGoal.targetDate);
+    }
+  }, [editingGoal]);
 
   const circleColors = ["blue", "green", "purple", "orange", "pink"];
 
@@ -37,21 +53,29 @@ export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
     });
   };
 
-  function handleAdd() {
+  function handleSubmit() {
     if (!description.trim() || Number(targetValue) === 0) {
       openModalWarning("alert");
       return false;
     }
-    const newGoal = {
-      id: v4(),
+    // else if (Number(achievedValue) > Number(targetValue)) {
+    //   openModalWarning("alert");
+    //   return false;
+    // }
+    const goalData = {
+      id: editingGoal ? editingGoal.id : v4(),
       description,
       targetDate,
-      targetValue,
-      achievedValue,
+      targetValue: Number(targetValue),
+      achievedValue: Number(achievedValue),
       color,
       isFinished: Number(achievedValue) >= Number(targetValue),
     };
-    onAddGoal(newGoal);
+    if (editingGoal) {
+      onUpdate(goalData);
+    } else {
+      onAddGoal(goalData);
+    }
 
     setDescription("");
     setTargetValue("1000000");
@@ -64,7 +88,7 @@ export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
   }
 
   const onClickButton = () => {
-    const success = handleAdd();
+    const success = handleSubmit();
     if (success) onExitModal();
   };
 
@@ -120,7 +144,9 @@ export default function AddGoal({ onAddGoal, onExitModal, openModalWarning }) {
             Cancelar
           </Button>
           <ColorButton onClick={onClickButton} color={color}>
-            <TextWithIcon>Criar Meta</TextWithIcon>
+            <TextWithIcon>
+              {editingGoal ? "Salvar Alterações" : "Criar Meta"}
+            </TextWithIcon>
           </ColorButton>
         </div>
       </div>

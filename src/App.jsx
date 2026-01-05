@@ -10,12 +10,13 @@ import TransactionsPage from "./pages/TransactionsPage";
 import ModalAdd from "./pages/modal/ModalAdd";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState("goals");
+  const [currentPage, setCurrentPage] = useState("home");
   const [warning, setWarning] = useState(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
   const [showNewExpense, setShowNewExpense] = useState(false);
   const [showNewGoal, setShowNewGoal] = useState(false);
   const [pages, setPages] = useState(["Home"]);
+  const [editingGoal, setEditingGoal] = useState(null);
 
   const handleGoPage = (page) => {
     setCurrentPage(page);
@@ -49,11 +50,52 @@ export default function App() {
   }, [expenses]);
 
   function addGoal(goal) {
-    setGoal((prev) => [...prev, goal]);
+    setGoal((prevGoals) => [...prevGoals, goal]);
   }
   function addExpense(expense) {
-    setExpense((prev) => [...prev, expense]);
+    setExpense((prevExpenses) => [...prevExpenses, expense]);
   }
+  function updateGoal(id, addValue) {
+    setGoal((prevGoals) =>
+      prevGoals.map((goal) => {
+        const achieved = Number(goal.achievedValue);
+        const target = Number(goal.targetValue);
+        const nextValue = achieved + addValue;
+
+        return goal.id === id
+          ? {
+              ...goal,
+              achievedValue: Math.min(nextValue, target),
+              isFinished: nextValue >= target,
+            }
+          : goal;
+      })
+    );
+  }
+  function updateGoalFull(updatedGoal) {
+    setGoal((prevGoals) =>
+      prevGoals.map((goal) => (goal.id === updatedGoal.id ? updatedGoal : goal))
+    );
+  }
+  function deleteGoal(id) {
+    const newGoals = goals.filter((goal) => goal.id != id);
+    setGoal(newGoals);
+  }
+  function finishGoal(id) {
+    setGoal((prevGoals) =>
+      prevGoals.map((goal) => {
+        const target = Number(goal.targetValue);
+        return goal.id === id
+          ? {
+              ...goal,
+              achievedValue: target,
+              isFinished: true,
+            }
+          : goal;
+      })
+    );
+  }
+
   function handleModal(boolean, type) {
     if (type === "expense") setShowNewExpense(boolean);
     if (type === "goal") setShowNewGoal(boolean);
@@ -178,16 +220,14 @@ export default function App() {
           />
         )}
         {showNewGoal && (
-          // <ModalNewGoal
-          //   onAddGoal={addGoal}
-          //   onModalAction={handleModal}
-          //   openModalWarning={openModalWarning}
-          // />
           <ModalAdd
             onAdd={addGoal}
+            onUpdate={updateGoalFull}
             onModalAction={handleModal}
             openModalWarning={openModalWarning}
             type="goal"
+            editingGoal={editingGoal}
+            setEditingGoal={setEditingGoal}
           />
         )}
       </AnimatePresence>
@@ -211,6 +251,13 @@ export default function App() {
               key="goals"
               pages={pages}
               goals={goals}
+              onEditGoal={(goal) => {
+                setEditingGoal(goal);
+                setShowNewGoal(true);
+              }}
+              onFinishGoal={finishGoal}
+              onDeleteGoal={deleteGoal}
+              onUpdateGoal={updateGoal}
               onGoPage={handleGoPage}
               onModalAction={handleModal}
             />

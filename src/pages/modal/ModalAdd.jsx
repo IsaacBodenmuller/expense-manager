@@ -6,10 +6,13 @@ import { motion } from "framer-motion";
 
 export default function ModalAdd({
   onAdd,
+  onUpdate,
   onModalAction,
   openModalWarning,
   options = [],
   type,
+  editingGoal,
+  setEditingGoal,
 }) {
   const modalHeight = {
     expense: "min-h-[570px] sm:min-h-[570px] lg:min-h-[500px]",
@@ -27,7 +30,12 @@ export default function ModalAdd({
     goal: (
       <AddGoal
         onAddGoal={onAdd}
-        onExitModal={() => onModalAction(false, type)}
+        onUpdate={onUpdate}
+        editingGoal={editingGoal}
+        onExitModal={() => {
+          setEditingGoal(null);
+          onModalAction(false, type);
+        }}
         openModalWarning={openModalWarning}
       />
     ),

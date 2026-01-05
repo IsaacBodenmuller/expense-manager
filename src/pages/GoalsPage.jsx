@@ -5,7 +5,16 @@ import GoalCard from "../components/elements/GoalCard";
 import Card from "../components/elements/Card";
 import { Plus } from "lucide-react";
 
-export default function GoalsPage({ goals, pages, onGoPage, onModalAction }) {
+export default function GoalsPage({
+  goals,
+  pages,
+  onFinishGoal,
+  onDeleteGoal,
+  onUpdateGoal,
+  onGoPage,
+  onModalAction,
+  onEditGoal,
+}) {
   const metasTotal = goals.reduce(
     (acc, item) => acc + Number(item.targetValue / 100),
     0
@@ -73,7 +82,14 @@ export default function GoalsPage({ goals, pages, onGoPage, onModalAction }) {
 
         <div className="flex flex-col gap-6">
           {goals.map((goal) => (
-            <GoalCard key={goal.id} goal={goal} />
+            <GoalCard
+              key={goal.id}
+              goal={goal}
+              onFinishGoal={onFinishGoal}
+              onUpdateGoal={onUpdateGoal}
+              onDeleteGoal={onDeleteGoal}
+              onEditGoal={onEditGoal}
+            />
           ))}
         </div>
       </div>

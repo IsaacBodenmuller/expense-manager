@@ -1,5 +1,7 @@
 import { Target, Calendar, Ellipsis } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import Title from "./Title";
+import CardOptions from "./CardOptions";
 
 const COLORS = {
   blue: {
@@ -34,11 +36,40 @@ const COLORS = {
   },
 };
 
-export default function GoalCard({ goal }) {
+export default function GoalCard({
+  goal,
+  onUpdateGoal,
+  onDeleteGoal,
+  onFinishGoal,
+  onEditGoal,
+}) {
+  const optionsRef = useRef(null);
+  const [options, setOptions] = useState(false);
   const color = COLORS[goal.color] || COLORS.blue;
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (optionsRef.current && !optionsRef.current.contains(event.target)) {
+        setOptions(false);
+      }
+    }
+
+    if (options) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [options]);
+
   const progress =
     goal.targetValue > 0
-      ? Math.min((goal.achievedValue / goal.targetValue) * 100, 100)
+      ? Number(
+          Math.min((goal.achievedValue / goal.targetValue) * 100, 100).toFixed(
+            2
+          )
+        )
       : 0;
 
   const dateFormatted = (date) => {
@@ -63,7 +94,7 @@ export default function GoalCard({ goal }) {
 
   return (
     <div
-      className={`flex flex-col w-full h-40 px-4 py-4 border-[3px] rounded-xl gap-4 ${
+      className={`flex flex-col w-full h-40 px-4 py-4 border-[3px] rounded-xl gap-2 ${
         !goal.isFinished ? color.border : "border-green-500 bg-green-50"
       }`}
     >
@@ -86,19 +117,32 @@ export default function GoalCard({ goal }) {
             </div>
           </div>
         </div>
-        <div className="content-center justify-items-center hover:bg-slate-200 rounded-lg size-8">
-          <Ellipsis className="size-4" />
+        <div
+          ref={optionsRef}
+          onClick={() => setOptions((prev) => !prev)}
+          className="flex self-center justify-center hover:bg-slate-200 rounded-lg size-8 cursor-pointer"
+        >
+          <Ellipsis className="size-4 self-center" />
+          {options && (
+            <CardOptions
+              goal={goal}
+              isFinished={goal.isFinished}
+              onDeleteGoal={onDeleteGoal}
+              onFinishGoal={onFinishGoal}
+              onEditGoal={onEditGoal}
+            />
+          )}
         </div>
       </div>
       <div className="flex flex-col gap-2">
         <div className="flex justify-between">
-          <span>
+          <span className="text-sm text-gray-600">
             {Number(goal.achievedValue / 100).toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
             })}
           </span>
-          <span>
+          <span className="text-sm text-black">
             {Number(goal.targetValue / 100).toLocaleString("pt-BR", {
               style: "currency",
               currency: "BRL",
@@ -113,7 +157,29 @@ export default function GoalCard({ goal }) {
             style={{ width: `${progress}%` }}
           />
         </div>
-        <div></div>
+        <div className="flex justify-between">
+          <div>
+            <span
+              className={`text-sm ${
+                goal.isFinished ? `text-green-600` : color.text
+              }`}
+            >{`${progress}% ${goal.isFinished ? "✅" : ""}`}</span>
+          </div>
+          <div className="flex gap-2">
+            <div
+              onClick={() => onUpdateGoal(goal.id, 5000)}
+              className="hover:bg-slate-200 rounded-md border-slate-300 w-full border h-6 px-2 text-xs text-center content-center"
+            >
+              +R$50
+            </div>
+            <div
+              onClick={() => onUpdateGoal(goal.id, 10000)}
+              className="hover:bg-slate-200 rounded-md border-slate-300 w-full border h-6 px-2 text-xs text-center content-center"
+            >
+              +R$100
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
