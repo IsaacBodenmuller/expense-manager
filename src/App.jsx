@@ -1,10 +1,10 @@
+import "./App.css";
 import { AnimatePresence } from "framer-motion";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
 import Menu from "./pages/Menu";
 import NavBar from "./pages/NavBar";
 import ModalWarning from "./pages/modal/ModalWarning";
-import { useState, useEffect } from "react";
-import "./App.css";
 import GoalsPage from "./pages/GoalsPage";
 import TransactionsPage from "./pages/TransactionsPage";
 import ModalAdd from "./pages/modal/ModalAdd";
