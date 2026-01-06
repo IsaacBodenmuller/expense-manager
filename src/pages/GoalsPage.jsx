@@ -81,16 +81,18 @@ export default function GoalsPage({
         </div>
 
         <div className="flex flex-col gap-6">
-          {goals.map((goal) => (
-            <GoalCard
-              key={goal.id}
-              goal={goal}
-              onFinishGoal={onFinishGoal}
-              onUpdateGoal={onUpdateGoal}
-              onDeleteGoal={onDeleteGoal}
-              onEditGoal={onEditGoal}
-            />
-          ))}
+          {goals
+            .sort((a, b) => a.isFinished - b.isFinished)
+            .map((goal) => (
+              <GoalCard
+                key={goal.id}
+                goal={goal}
+                onFinishGoal={onFinishGoal}
+                onUpdateGoal={onUpdateGoal}
+                onDeleteGoal={onDeleteGoal}
+                onEditGoal={onEditGoal}
+              />
+            ))}
         </div>
       </div>
     </div>

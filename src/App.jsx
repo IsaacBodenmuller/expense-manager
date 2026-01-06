@@ -265,6 +265,7 @@ export default function App() {
           {currentPage === "transactions" && (
             <TransactionsPage
               key="transactions"
+              options={options}
               pages={pages}
               expenses={expenses}
               onGoPage={handleGoPage}

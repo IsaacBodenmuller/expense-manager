@@ -74,7 +74,7 @@ export default function AddExpense({
   return (
     <div className="flex flex-col gap-6 py-4 px-4 w-full">
       <div className="flex w-full justify-evenly gap-4">
-        {!isExpense && (
+        {!isExpense ? (
           <>
             <ColorButton
               color={"green"}
@@ -95,8 +95,7 @@ export default function AddExpense({
               </TextWithIcon>
             </ColorButton>
           </>
-        )}
-        {isExpense && (
+        ) : (
           <>
             <ColorButton
               color={"gray"}
@@ -162,14 +161,13 @@ export default function AddExpense({
         <Button color={"white"} onClick={onExitModal}>
           Cancelar
         </Button>
-        {isExpense && (
+        {isExpense ? (
           <ColorButton onClick={onClickButton} color={"red"}>
             <TextWithIcon side="right" icon={Plus}>
               Adicionar
             </TextWithIcon>
           </ColorButton>
-        )}
-        {!isExpense && (
+        ) : (
           <ColorButton onClick={onClickButton} color={"green"}>
             <TextWithIcon side="right" icon={Plus}>
               Adicionar

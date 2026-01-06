@@ -103,8 +103,6 @@ export default function GridGoals({ goals, title, onGoPage }) {
                   ).toFixed(2)
                 )
               : 0;
-          console.log(goal);
-          console.log(cardColor);
           return (
             <div
               key={goal.id}
