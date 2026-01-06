@@ -79,8 +79,11 @@ export default function App() {
     );
   }
   function deleteGoal(id) {
-    const newGoals = goals.filter((goal) => goal.id != id);
-    setGoal(newGoals);
+    const result = confirm("Tem certeza que deseja excluir essa meta?");
+    if (result) {
+      const newGoals = goals.filter((goal) => goal.id != id);
+      setGoal(newGoals);
+    }
   }
   function finishGoal(id) {
     setGoal((prevGoals) =>

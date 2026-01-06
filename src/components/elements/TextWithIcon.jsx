@@ -3,6 +3,7 @@ export default function TextWithIcon({
   icon: Icon,
   iconSize = "4",
   fontSize = "base",
+  color,
   children,
 }) {
   const size = {
@@ -22,11 +23,17 @@ export default function TextWithIcon({
   };
   return (
     <div className="flex items-center justify-center gap-2">
-      {side === "left" && <Icon className={size[iconSize]} />}
+      {side === "left" && (
+        <Icon className={`${size[iconSize]}  ${color ? color : ""}`} />
+      )}
 
-      <span className={`${font[fontSize]} self-center`}>{children}</span>
+      <span className={`${font[fontSize]} ${color ? color : ""} self-center`}>
+        {children}
+      </span>
 
-      {side === "right" && <Icon className={size[iconSize]} />}
+      {side === "right" && (
+        <Icon className={`${size[iconSize]}  ${color ? color : ""}`} />
+      )}
     </div>
   );
 }

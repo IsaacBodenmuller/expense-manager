@@ -4,6 +4,7 @@ import TextWithIcon from "../components/elements/TextWithIcon";
 import GoalCard from "../components/elements/GoalCard";
 import Card from "../components/elements/Card";
 import { Plus } from "lucide-react";
+import targetImage from "../assets/target.png";
 
 export default function GoalsPage({
   goals,
@@ -80,19 +81,42 @@ export default function GoalsPage({
           ))}
         </div>
 
-        <div className="flex flex-col gap-6">
-          {goals
-            .sort((a, b) => a.isFinished - b.isFinished)
-            .map((goal) => (
-              <GoalCard
-                key={goal.id}
-                goal={goal}
-                onFinishGoal={onFinishGoal}
-                onUpdateGoal={onUpdateGoal}
-                onDeleteGoal={onDeleteGoal}
-                onEditGoal={onEditGoal}
+        <div className="flex flex-col gap-6 mt-12">
+          {goals.length ? (
+            goals
+              .sort((a, b) => a.isFinished - b.isFinished)
+              .map((goal) => (
+                <GoalCard
+                  key={goal.id}
+                  goal={goal}
+                  onFinishGoal={onFinishGoal}
+                  onUpdateGoal={onUpdateGoal}
+                  onDeleteGoal={onDeleteGoal}
+                  onEditGoal={onEditGoal}
+                />
+              ))
+          ) : (
+            <div className="flex flex-col gap-3">
+              <img
+                src={targetImage}
+                alt="Target image"
+                className="size-16 self-center"
               />
-            ))}
+              <span className="self-center text-lg font-medium">
+                Nenhuma meta definida
+              </span>
+              <span className="self-center text-base font-normal text-slate-500">
+                Crie sua primeira meta financeira
+              </span>
+              <div
+                onClick={() => onModalAction(true, "goal")}
+                className="flex self-center justify-evenly items-center rounded-md bg-purple-600 text-white text-sm px-2 w-36 h-8 cursor-pointer"
+              >
+                <Plus />
+                <button type="button">Criar Meta</button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
