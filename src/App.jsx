@@ -18,6 +18,7 @@ export default function App() {
   const [pages, setPages] = useState(["Home"]);
   const [editingGoal, setEditingGoal] = useState(null);
 
+  //home
   const handleGoPage = (page) => {
     setCurrentPage(page);
     setIsOpenMenu(false);
