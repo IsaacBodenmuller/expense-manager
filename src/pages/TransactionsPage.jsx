@@ -26,6 +26,7 @@ export default function TransactionPage({
   const [openedExpenseId, setOpenedExpenseId] = useState(null);
   const [category, setCategory] = useState(0);
   const [type, setType] = useState(0);
+  const [textInput, setTextInput] = useState("");
 
   const [typeOptions] = useState([
     {
@@ -62,8 +63,35 @@ export default function TransactionPage({
     }
   }, [type, filteredCategoryOptions, category]);
 
+  const optionDescription = (type) => {
+    const option = options.find((option) => option.id === type);
+    return option?.description || "";
+  };
+
   const disabled = expenses.length === 0;
-  const sortedExpenses = expenses.sort(
+  const filteredExpenses = expenses.filter((expense) => {
+    if (type === 1 && expense.isExpense) return false;
+    if (type === 2 && !expense.isExpense) return false;
+
+    if (category !== 0 && expense.type !== category) return false;
+
+    if (textInput && textInput.trim() !== "") {
+      const search = textInput.toLowerCase();
+
+      const descriptionMatch = expense.description
+        .toLowerCase()
+        .includes(search);
+
+      const categoryMatch = optionDescription(expense.type)
+        .toLowerCase()
+        .includes(search);
+
+      if (!descriptionMatch && !categoryMatch) return false;
+    }
+
+    return true;
+  });
+  const sortedExpenses = [...filteredExpenses].sort(
     (a, b) => new Date(b.date) - new Date(a.date)
   );
   const formattedDate = (date) => {
@@ -100,10 +128,6 @@ export default function TransactionPage({
   const expenseIcon = (type) => {
     const option = options.find((option) => option.id === type);
     return option?.icon || null;
-  };
-  const optionDescription = (type) => {
-    const option = options.find((option) => option.id === type);
-    return option?.description || "";
   };
 
   return (
@@ -150,7 +174,10 @@ export default function TransactionPage({
         </div>
       </div>
       <div className="flex flex-col border border-slate-200 w-full h-50 rounded-xl shadow-sm p-4 gap-4 justify-center">
-        <InputSearch placeholder="Buscar transações..." />
+        <InputSearch
+          placeholder="Buscar transações..."
+          onChange={(e) => setTextInput(e.target.value)}
+        />
         <InputOption
           disabled={disabled}
           options={typeOptions}
@@ -167,7 +194,7 @@ export default function TransactionPage({
         />
       </div>
       {sortedExpenses.length ? (
-        <div className="w-full flex flex-col gap-5">
+        <div className="w-full flex flex-col gap-4">
           {Object.entries(expensesGroupedByDate).map(
             ([date, expensesOfDay]) => (
               <div key={date} className="flex flex-col gap-3">
@@ -178,7 +205,7 @@ export default function TransactionPage({
                   </span>
                 </div>
 
-                <div className="flex flex-col border rounded-lg">
+                <div className="flex flex-col border rounded-lg shadow-md">
                   {expensesOfDay.map((expense, index) => (
                     <div
                       className={`flex h-20 p-2 justify-between ${

@@ -41,6 +41,12 @@ export default function AddExpense({
     return option.isExpense === isExpense;
   });
 
+  useEffect(() => {
+    if (!filteredOptions.some((opt) => opt.id === type)) {
+      setType("");
+    }
+  }, [isExpense, filteredOptions, type]);
+
   const handleValueChange = (e) => {
     const numericValue = e.target.value.replace(/\D/g, "");
     setValue(numericValue);
@@ -186,7 +192,7 @@ export default function AddExpense({
           </ColorButton>
         ) : (
           <ColorButton onClick={onClickButton} color={"green"}>
-            <TextWithIcon side="right" icon={Plus}>
+            <TextWithIcon side="right" icon={editingExpense ? null : Plus}>
               {editingExpense ? "Salvar Alterações" : "Adicionar"}
             </TextWithIcon>
           </ColorButton>
