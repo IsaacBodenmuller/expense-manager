@@ -10,13 +10,15 @@ import TransactionsPage from "./pages/TransactionsPage";
 import ModalAdd from "./pages/modal/ModalAdd";
 
 export default function App() {
+  const [pages, setPages] = useState(["Home"]);
   const [currentPage, setCurrentPage] = useState("home");
   const [warning, setWarning] = useState(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
+
   const [showNewExpense, setShowNewExpense] = useState(false);
   const [showNewGoal, setShowNewGoal] = useState(false);
-  const [pages, setPages] = useState(["Home"]);
   const [editingGoal, setEditingGoal] = useState(null);
+  const [editingExpense, setEditingExpense] = useState(null);
 
   //home
   const handleGoPage = (page) => {
@@ -50,11 +52,25 @@ export default function App() {
     localStorage.setItem("expenses", JSON.stringify(expenses));
   }, [expenses]);
 
-  function addGoal(goal) {
-    setGoal((prevGoals) => [...prevGoals, goal]);
-  }
   function addExpense(expense) {
     setExpense((prevExpenses) => [...prevExpenses, expense]);
+  }
+  function updateExpenseFull(updatedExpense) {
+    setExpense((prevExpenses) =>
+      prevExpenses.map((expense) =>
+        expense.id === updatedExpense.id ? updatedExpense : expense
+      )
+    );
+  }
+  function deleteExpense(id) {
+    const result = confirm("Tem certeza que deseja exluir essa transação?");
+    if (result) {
+      setExpense(expenses.filter((expense) => expense.id != id));
+    }
+  }
+
+  function addGoal(goal) {
+    setGoal((prevGoals) => [...prevGoals, goal]);
   }
   function updateGoal(id, addValue) {
     setGoal((prevGoals) =>
@@ -81,8 +97,7 @@ export default function App() {
   function deleteGoal(id) {
     const result = confirm("Tem certeza que deseja excluir essa meta?");
     if (result) {
-      const newGoals = goals.filter((goal) => goal.id != id);
-      setGoal(newGoals);
+      setGoal(goals.filter((goal) => goal.id != id));
     }
   }
   function finishGoal(id) {
@@ -217,10 +232,13 @@ export default function App() {
         {showNewExpense && (
           <ModalAdd
             onAdd={addExpense}
+            onUpdate={updateExpenseFull}
             onModalAction={handleModal}
             openModalWarning={openModalWarning}
-            options={options}
             type="expense"
+            editingType={editingExpense}
+            setEditingType={setEditingExpense}
+            options={options}
           />
         )}
         {showNewGoal && (
@@ -230,8 +248,8 @@ export default function App() {
             onModalAction={handleModal}
             openModalWarning={openModalWarning}
             type="goal"
-            editingGoal={editingGoal}
-            setEditingGoal={setEditingGoal}
+            editingType={editingGoal}
+            setEditingType={setEditingGoal}
           />
         )}
       </AnimatePresence>
@@ -272,6 +290,11 @@ export default function App() {
               options={options}
               pages={pages}
               expenses={expenses}
+              onEditExpense={(expense) => {
+                setEditingExpense(expense);
+                setShowNewExpense(true);
+              }}
+              onDeleteExpense={deleteExpense}
               onGoPage={handleGoPage}
               onModalAction={handleModal}
             />

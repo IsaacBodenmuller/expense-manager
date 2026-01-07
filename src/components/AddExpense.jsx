@@ -4,14 +4,16 @@ import InputOption from "./elements/InputOption";
 import InputDate from "./elements/InputDate";
 import Button from "./elements/Button";
 import ColorButton from "./elements/ColorButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 } from "uuid";
 import TextWithIcon from "./elements/TextWithIcon";
 import { ArrowUpRight, ArrowDownRight, Plus } from "lucide-react";
 
 export default function AddExpense({
-  options,
   onAddExpense,
+  editingExpense,
+  onUpdate,
+  options,
   onExitModal,
   openModalWarning,
 }) {
@@ -22,6 +24,17 @@ export default function AddExpense({
   const today = new Date().toISOString().split("T")[0];
   const [date, setDate] = useState(today);
   const [note, setNote] = useState("");
+
+  useEffect(() => {
+    if (editingExpense) {
+      setDescription(editingExpense.description);
+      setValue(Number(editingExpense.value) * 100);
+      setType(editingExpense.type);
+      setIsExpense(editingExpense.isExpense);
+      setDate(editingExpense.date);
+      setNote(editingExpense.note);
+    }
+  }, [editingExpense]);
 
   const filteredOptions = options.filter((option) => {
     if (option.isOther) return true;
@@ -45,8 +58,8 @@ export default function AddExpense({
       openModalWarning("alert");
       return false;
     }
-    const newExpense = {
-      id: v4(),
+    const expenseData = {
+      id: editingExpense ? editingExpense.id : v4(),
       description,
       value: Number(value) / 100,
       type,
@@ -54,7 +67,11 @@ export default function AddExpense({
       date,
       note,
     };
-    onAddExpense(newExpense);
+    if (editingExpense) {
+      onUpdate(expenseData);
+    } else {
+      onAddExpense(expenseData);
+    }
 
     setDescription("");
     setValue("");
@@ -164,13 +181,13 @@ export default function AddExpense({
         {isExpense ? (
           <ColorButton onClick={onClickButton} color={"red"}>
             <TextWithIcon side="right" icon={Plus}>
-              Adicionar
+              {editingExpense ? "Salvar Alterações" : "Adicionar"}
             </TextWithIcon>
           </ColorButton>
         ) : (
           <ColorButton onClick={onClickButton} color={"green"}>
             <TextWithIcon side="right" icon={Plus}>
-              Adicionar
+              {editingExpense ? "Salvar Alterações" : "Adicionar"}
             </TextWithIcon>
           </ColorButton>
         )}

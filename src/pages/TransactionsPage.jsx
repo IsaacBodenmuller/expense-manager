@@ -11,15 +11,19 @@ import TextWithIcon from "../components/elements/TextWithIcon";
 import Button from "../components/elements/Button";
 import InputSearch from "../components/elements/InputSearch";
 import InputOption from "../components/elements/InputOption";
+import ExpenseOptions from "../components/elements/ExpenseOptions";
 import invesmentImage from "../assets/investment.png";
 
 export default function TransactionPage({
   expenses,
   options,
   pages,
+  onDeleteExpense,
   onGoPage,
   onModalAction,
+  onEditExpense,
 }) {
+  const [openedExpenseId, setOpenedExpenseId] = useState(null);
   const [category, setCategory] = useState(0);
   const [type, setType] = useState(0);
 
@@ -184,44 +188,67 @@ export default function TransactionPage({
                       }`}
                       key={expense.id}
                     >
-                      <div className="flex gap-3 self-center">
+                      <div className="flex gap-3 self-center min-w-40">
                         <div className="bg-slate-100 rounded-xl size-12 content-center text-center">
                           {expenseIcon(expense.type)}
                         </div>
-                        <div className="flex flex-col justify-between">
-                          <span className="text-sm">{expense.description}</span>
+                        <div className="flex flex-col justify-between min-w-0">
+                          <span className="text-sm text-ellipsis text-nowrap overflow-hidden">
+                            {expense.description}
+                          </span>
                           <div className="bg-gray-100 px-2 rounded-md text-[13px] text-center font-medium w-fit">
                             {optionDescription(expense.type)}
                           </div>
                         </div>
                       </div>
-                      <div className="flex justify-between w-full">
-                        {expense.isExpense ? (
-                          <TextWithIcon
-                            iconSize="5"
-                            side="left"
-                            icon={ArrowDownRight}
-                            color="text-red-500"
-                          >
-                            {expense.value.toLocaleString("pt-BR", {
-                              style: "currency",
-                              currency: "BRL",
-                            })}
-                          </TextWithIcon>
-                        ) : (
-                          <TextWithIcon
-                            iconSize="5"
-                            side="left"
-                            icon={ArrowUpRight}
-                            color="text-green-500"
-                          >
-                            {expense.value.toLocaleString("pt-BR", {
-                              style: "currency",
-                              currency: "BRL",
-                            })}
-                          </TextWithIcon>
-                        )}
-                        <Ellipsis className="size-4 self-center" />
+                      <div className="flex justify-end w-fit gap-3 items-center">
+                        <div className="self-center">
+                          {expense.isExpense ? (
+                            <TextWithIcon
+                              iconSize="5"
+                              side="left"
+                              icon={ArrowDownRight}
+                              color="text-red-500"
+                            >
+                              {expense.value.toLocaleString("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              })}
+                            </TextWithIcon>
+                          ) : (
+                            <TextWithIcon
+                              iconSize="5"
+                              side="left"
+                              icon={ArrowUpRight}
+                              color="text-green-500"
+                            >
+                              {expense.value.toLocaleString("pt-BR", {
+                                style: "currency",
+                                currency: "BRL",
+                              })}
+                            </TextWithIcon>
+                          )}
+                        </div>
+                        <div
+                          key={expense.id}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setOpenedExpenseId(
+                              openedExpenseId === expense.id ? null : expense.id
+                            );
+                          }}
+                          className="content-center justify-items-center cursor-pointer h-8 w-8 hover:bg-slate-100 rounded-md"
+                        >
+                          <Ellipsis className="size-4 self-center" />
+                          {openedExpenseId === expense.id && (
+                            <ExpenseOptions
+                              expense={expense}
+                              onDeleteExpense={onDeleteExpense}
+                              onEditExpense={onEditExpense}
+                              onClose={() => setOpenedExpenseId(null)}
+                            />
+                          )}
+                        </div>
                       </div>
                     </div>
                   ))}

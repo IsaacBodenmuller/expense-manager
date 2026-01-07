@@ -11,8 +11,8 @@ export default function ModalAdd({
   openModalWarning,
   options = [],
   type,
-  editingGoal,
-  setEditingGoal,
+  editingType,
+  setEditingType,
 }) {
   const modalHeight = {
     expense: "min-h-[570px] sm:min-h-[570px] lg:min-h-[500px]",
@@ -23,7 +23,12 @@ export default function ModalAdd({
       <AddExpense
         options={options}
         onAddExpense={onAdd}
-        onExitModal={() => onModalAction(false, type)}
+        onUpdate={onUpdate}
+        editingExpense={editingType}
+        onExitModal={() => {
+          setEditingType(null);
+          onModalAction(false, type);
+        }}
         openModalWarning={openModalWarning}
       />
     ),
@@ -31,9 +36,9 @@ export default function ModalAdd({
       <AddGoal
         onAddGoal={onAdd}
         onUpdate={onUpdate}
-        editingGoal={editingGoal}
+        editingGoal={editingType}
         onExitModal={() => {
-          setEditingGoal(null);
+          setEditingType(null);
           onModalAction(false, type);
         }}
         openModalWarning={openModalWarning}
