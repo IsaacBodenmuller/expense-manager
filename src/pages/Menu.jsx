@@ -7,7 +7,7 @@ export default function Menu({ currentPage, onGoPage, onClose }) {
     { label: "Home", page: "home" },
     { label: "Transações", page: "transactions" },
     { label: "Metas", page: "goals" },
-    { label: "Configurações", page: "settings" },
+    // { label: "Configurações", page: "settings" },
   ];
   return (
     <>
