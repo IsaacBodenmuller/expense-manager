@@ -38,13 +38,13 @@ export default function Card({
     metasConcluidas: "bg-blue-100 border-blue-300 shadow-blue-300/40",
   };
   const icon = {
-    total: <Wallet />,
-    receita: <TrendingUp />,
-    despesa: <TrendingDown />,
-    economizado: <PiggyBank />,
-    metasTotal: <Target />,
-    economizadoTotal: <TrendingUp />,
-    metasConcluidas: <Target />,
+    total: <Wallet className="justify-self-center" />,
+    receita: <TrendingUp className="justify-self-center" />,
+    despesa: <TrendingDown className="justify-self-center" />,
+    economizado: <PiggyBank className="justify-self-center" />,
+    metasTotal: <Target className="justify-self-center" />,
+    economizadoTotal: <TrendingUp className="justify-self-center" />,
+    metasConcluidas: <Target className="justify-self-center" />,
   };
   const colorIcon = {
     total: "bg-blue-500",
