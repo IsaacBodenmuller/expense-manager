@@ -28,7 +28,7 @@ export default function Home({
         <div className="flex flex-col gap-2">
           <div>
             <Title size="xl" weight="medium" position="start">
-              Home
+              Tela Inicial
             </Title>
             <span className="text-slate-500 text-base">
               Visão geral das suas finanças
