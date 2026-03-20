@@ -16,10 +16,10 @@ export default function GridCards({ expenses }) {
     receita,
     despesa,
     total: receita - despesa,
-    economizado: 0,
+    // economizado: 0,
   };
 
-  const cards = ["total", "receita", "despesa", "economizado"];
+  const cards = ["total", "receita", "despesa"]; //, "economizado"];
 
   return (
     <div className="flex flex-col gap-4">

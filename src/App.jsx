@@ -10,8 +10,22 @@ import TransactionsPage from "./pages/TransactionsPage";
 import ModalAdd from "./pages/modal/ModalAdd";
 
 export default function App() {
+  const storedPage = localStorage.getItem("page");
+
   const [pages, setPages] = useState(["Home"]);
-  const [currentPage, setCurrentPage] = useState("home");
+  const [currentPage, setCurrentPage] = useState(
+    storedPage?.currentPage || "home",
+  );
+  useEffect(() => {
+    localStorage.setItem(
+      "page",
+      JSON.stringify({
+        pages,
+        currentPage,
+      }),
+    );
+  }, [pages, currentPage]);
+
   const [warning, setWarning] = useState(null);
   const [isOpenMenu, setIsOpenMenu] = useState(false);
 
@@ -39,10 +53,10 @@ export default function App() {
   };
 
   const [goals, setGoal] = useState(
-    JSON.parse(localStorage.getItem("goals")) || []
+    JSON.parse(localStorage.getItem("goals")) || [],
   );
   const [expenses, setExpense] = useState(
-    JSON.parse(localStorage.getItem("expenses")) || []
+    JSON.parse(localStorage.getItem("expenses")) || [],
   );
   useEffect(() => {
     localStorage.setItem("goals", JSON.stringify(goals));
@@ -58,8 +72,8 @@ export default function App() {
   function updateExpenseFull(updatedExpense) {
     setExpense((prevExpenses) =>
       prevExpenses.map((expense) =>
-        expense.id === updatedExpense.id ? updatedExpense : expense
-      )
+        expense.id === updatedExpense.id ? updatedExpense : expense,
+      ),
     );
   }
   function deleteExpense(id) {
@@ -86,12 +100,14 @@ export default function App() {
               isFinished: nextValue >= target,
             }
           : goal;
-      })
+      }),
     );
   }
   function updateGoalFull(updatedGoal) {
     setGoal((prevGoals) =>
-      prevGoals.map((goal) => (goal.id === updatedGoal.id ? updatedGoal : goal))
+      prevGoals.map((goal) =>
+        goal.id === updatedGoal.id ? updatedGoal : goal,
+      ),
     );
   }
   function deleteGoal(id) {
@@ -111,7 +127,7 @@ export default function App() {
               isFinished: true,
             }
           : goal;
-      })
+      }),
     );
   }
 
@@ -224,8 +240,8 @@ export default function App() {
               warning === "success"
                 ? "Operação realizada com sucesso!"
                 : warning === "error"
-                ? "Parece que ocorreu um erro! Tente novamente."
-                : "É necessário preencher todos os campos!"
+                  ? "Parece que ocorreu um erro! Tente novamente."
+                  : "É necessário preencher todos os campos!"
             }
           />
         )}

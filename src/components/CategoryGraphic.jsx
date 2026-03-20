@@ -54,9 +54,9 @@ export default function CategoryGraphic({ expenses, options }) {
         Despesas por Categoria ({currentMonthName})
       </Title>
       <div className="flex justify-between">
-        <div className="max-w-40 w-full max-h-48 content-center">
+        <div className="w-full max-h-48 flex justify-center">
           {data.length === 0 ? (
-            <div className="w-fit h-fit flex text-center items-center justify-center text-slate-400 text-sm">
+            <div className="w-fit h-fit flex self-center text-center items-center justify-center text-slate-400 text-sm">
               Nenhum dado encontrado
             </div>
           ) : (
@@ -86,22 +86,24 @@ export default function CategoryGraphic({ expenses, options }) {
             </ResponsiveContainer>
           )}
         </div>
-        <div className="flex flex-col gap-2 justify-center min-w-32">
-          {data.map((item, index) => (
-            <div key={item.name} className="flex items-center gap-2 text-sm">
-              <span
-                className="w-2 h-2 rounded-full"
-                style={{ backgroundColor: COLORS[index % COLORS.length] }}
-              />
-              <div className="flex justify-between w-full">
-                <span className="text-slate-600 text-xs">{item.name}</span>
-                <span className="text-xs font-medium self-end">
-                  {(item.percent * 100).toFixed(1)}%
-                </span>
+        {data.length > 0 && (
+          <div className="flex flex-col gap-2 justify-center min-w-32">
+            {data.map((item, index) => (
+              <div key={item.name} className="flex items-center gap-2 text-sm">
+                <span
+                  className="w-2 h-2 rounded-full"
+                  style={{ backgroundColor: COLORS[index % COLORS.length] }}
+                />
+                <div className="flex justify-between w-full">
+                  <span className="text-slate-600 text-xs">{item.name}</span>
+                  <span className="text-xs font-medium self-end">
+                    {(item.percent * 100).toFixed(1)}%
+                  </span>
+                </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );
